@@ -2,6 +2,7 @@ node_modules
 *.log
 .nuxt
 nuxt.d.ts
+sw.*
 .output
 # dist
 .DS_Store
