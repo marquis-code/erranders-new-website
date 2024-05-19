@@ -1,7 +1,7 @@
 <template>
     <main>
         <section>
-            <section class="fixed bottom-1 right-0 cursor-pointer z-50">
+            <section class="fixed bottom-2 right-2 cursor-pointer z-50">
                 <div v-if="showPrompt" class="relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
                     <!-- Background backdrop, show/hide based on slide-over state. -->
                     <div class="fixed inset-0"></div>
@@ -31,7 +31,7 @@
                                                         with` : `We've been waiting for you.` }}
                                                     </h2>
                                                     <div class="ml-3 flex h-7 items-center">
-                                                        <button type="button"
+                                                        <button type="button" @click="showPrompt = false"
                                                             class="relative rounded-md bg-indigo-700 text-indigo-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white">
                                                             <span class="absolute -inset-2.5"></span>
                                                             <span class="sr-only">Close panel</span>
