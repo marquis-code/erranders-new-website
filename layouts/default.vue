@@ -2,7 +2,8 @@
   <div>
     <NavigationBar />
     <NuxtPage />
-    <ChatbotIcon />
+    <!-- <ChatbotIcon /> -->
+    <SupportForm />
   </div>
 </template>
 

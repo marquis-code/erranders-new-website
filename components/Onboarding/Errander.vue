@@ -115,8 +115,9 @@
                 </div>
             </div>
             <div class="w-full pt-6">
-                <button type="button"
-                    class="text-white bg-[#0BCA63] px-6 py-3.5 clear-left w-full rounded-full">Next</button>
+                <button type="button" @click="createUser" :disabled="processing"
+                    class="text-white disabled:cursor-not-allowed disabled:opacity-25 bg-[#0BCA63] px-6 py-3.5 clear-left w-full rounded-full">{{ processing
+                    ? 'saving...' : 'Next'}}</button>
             </div>
         </div>
     </main>
@@ -132,4 +133,18 @@ const activeStep = ref('personal-info')
 const eye = computed(() => {
     return showPassword.value ? eyeClose : eyeOpen
 })
+
+const processing = ref(false)
+
+const createUser = () => {
+    processing.value = true
+    setTimeout(() => {
+        processing.value = false
+        router.push('/marketplace')
+        useNuxtApp().$toast.success("Account was successfully created", {
+            autoClose: 5000,
+            dangerouslyHTMLString: true,
+        });
+    }, 3000)
+}
 </script>

@@ -149,7 +149,7 @@
                 </svg>
             </div>
             <div data-aos="flip-left"
-                class="relative overflow-x-auto  xl:hidden lg:col-span-5 lg:-mr-8 xl:absolute xl:inset-0 xl:left-1/2 xl:mr-0 pt-10">
+                class="relative overflow-x-auto example  xl:hidden lg:col-span-5 lg:-mr-8 xl:absolute xl:inset-0 xl:left-1/2 xl:mr-0 pt-10">
                 <svg width="490" height="500" viewBox="0 0 975 894" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M555.5 732L448.5 722.5L393 680M393 680L382 716.5M393 680L394.968 666.221M423.5 557.5L395 666L394.968 666.221M394.968 666.221L380.5 661L369.5 706.5"
@@ -279,3 +279,18 @@
     </div>
 
 </template>
+
+<style>
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+}
+</style>

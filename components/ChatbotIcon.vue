@@ -1,6 +1,6 @@
 <!-- components/ChatbotIcon.vue -->
 <template>
-    <div @click="redirectToWhatsApp" class="fixed bottom-6 right-24 cursor-pointer">
+    <div @click="redirectToWhatsApp" class="fixed bottom-6 right-6 cursor-pointer">
         <img src="@/assets/icons/chatbot.svg" alt="Chat with us on WhatsApp" class="h-12 w-12 bg-white rounded-full p-1.5 shadow-sm">
     </div>
 </template>

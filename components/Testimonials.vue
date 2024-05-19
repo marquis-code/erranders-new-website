@@ -1,6 +1,7 @@
 <template>
     <main class="py-32 space-y-6">
-        <section class="max-w-screen-2xl mx-auto lg:flex justify-between items-center px-6 lg:px-0">
+        <section
+            class="max-w-screen-2xl mx-auto space-y-4 lg:space-y-0 lg:flex justify-between items-center px-6 lg:px-0">
             <div>
                 <h1 class="text-2xl lg:text-4xl font-medium max-w-sm" data-aos="flip-left">Used By Thousands Of
                     Students on Campus</h1>
@@ -258,7 +259,7 @@ const prevSlide = () => {
 }
 
 onMounted(() => {
-    setInterval(nextSlide(), 3000);
+    setInterval(nextSlide, 3000);
 })
 </script>
 

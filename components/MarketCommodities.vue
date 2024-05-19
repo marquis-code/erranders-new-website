@@ -92,7 +92,9 @@
                                 fill="#0BCA63" />
                         </svg>
                     </p>
-                    <img src="@/assets/icons/tags.svg" alt="tag" class="absolute -top-4 -right-2" />
+                    <div class="absolute -top-4 -right-2">
+                        <img src="@/assets/icons/tags.svg" alt="tag" />
+                    </div>
                 </div>
             </div>
         </section>

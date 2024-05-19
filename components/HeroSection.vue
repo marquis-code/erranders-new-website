@@ -17,7 +17,7 @@
                 </svg>
                 <rect width="100%" height="100%" stroke-width="0" fill="url(#83fd4e5a-9d52-42fc-97b6-718e5d7ee527)" />
             </svg>
-            <div class="mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:py-40">
+            <div class="mx-auto max-w-7xl px-6 py-10 sm:py-32 lg:flex lg:items-center lg:gap-x-10 lg:px-8 lg:py-40">
                 <div class="mx-auto max-w-2xl lg:mx-0 lg:flex-auto">
                     <div class="flex">
                         <div data-aos="flip-left"
@@ -26,17 +26,20 @@
                                 shopping!</span>
                         </div>
                     </div>
-                    <h1 data-aos="flip-left" class="mt-10 max-w-4xl leading-relaxed text-4xl font-medium  text-[#011633] sm:text-5xl">Get
+                    <h1 data-aos="flip-left"
+                        class="mt-10 max-w-4xl leading-relaxed text-4xl font-medium  text-[#011633] sm:text-5xl">Get
                         your food
                         and essentials delivered straight to your hostel with <span
                             class="text-[#034091] font-semibold">Erranders.</span></h1>
-                    <p data-aos="flip-left" class="mt-6 text-lg max-w-lg leading-8 text-[#011633]">Browse from our list of specials to place
+                    <p data-aos="flip-left" class="mt-6 text-lg max-w-lg leading-8 text-[#011633]">Browse from our list
+                        of specials to place
                         your
                         order and have food
                         delivered to you in no time. Affordable, tasty and fast!</p>
                     <div data-aos="flip-left" class="mt-10 flex items-center gap-x-6">
                         <NuxtLink to="/marketplace"
-                            class="rounded-full bg-[#0BCA63] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0BCA63] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0BCA63]">Place
+                            class="rounded-full bg-[#0BCA63] px-6 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#0BCA63] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0BCA63]">
+                            Place
                             order
                         </NuxtLink>
                         <a href="#products" class="text-sm font-semibold leading-6 text-[#011633]">Get started</a>

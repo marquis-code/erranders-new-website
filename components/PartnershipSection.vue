@@ -29,7 +29,7 @@
                         </div>
                         <div class="flex justify-center items-center">
                             <div data-aos="flip-left" class="lg:w-5/12 flex justify-center items-center pt-6 lg:pt-7">
-                                <button type="submit"
+                                <button @click="router.push('/register')" type="submit"
                                     class="flex-none lg:w-5/12 rounded-full bg-[#0BCA63] px-3.5 py-3.5 text-sm font-medium text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2">
                                     Create account</button>
                             </div>
@@ -58,4 +58,5 @@
 </template>
 
 <script setup lang="ts">
+const router = useRouter()
 </script>
