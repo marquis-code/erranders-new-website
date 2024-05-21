@@ -1,7 +1,6 @@
 <template>
     <div v-if="show" class="relative z-10 rounded-xl" role="dialog" aria-modal="true">
         <div class="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block"></div>
-
         <div class="fixed inset-0 z-10 w-screen overflow-y-auto rounded-xl">
             <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
                 <div
@@ -58,7 +57,7 @@
                                     <div class="space-y-4">
                                         <div>
                                             <h4 class="text-sm text-gray-600">Size</h4>
-                                            <ProductSizes :sizes="product.sizeList" />
+                                            <ProductSizes :sizeList="product.sizeList" />
                                         </div>
                                         <div class="space-y-3">
                                             <h4 class="text-sm text-gray-600">Quantity</h4>

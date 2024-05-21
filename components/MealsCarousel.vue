@@ -69,7 +69,7 @@ const images = ref([
         avatar: meal1
       }
     ],
-    sizeList: ['S', 'MD', 'L', 'XL', 'XXL'],
+    sizeList: ['S','MD','L','XL','XXL'],
     quantity: 30,
     price: "5000"
   },
