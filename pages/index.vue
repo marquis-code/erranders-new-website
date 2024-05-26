@@ -15,6 +15,8 @@
 
 <!-- pages/index.vue -->
 <script setup lang="ts">
+import { useCreateCart } from '@/composables/cart/create'
+const { cartList } = useCreateCart()
 // onMounted(() => {
 //   const router = useRouter()
 //   router.push('/login');

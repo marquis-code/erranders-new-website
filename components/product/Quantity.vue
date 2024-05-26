@@ -5,7 +5,7 @@
             &minus;
         </button>
 
-        <input type="number" id="Quantity"  v-model="counter"
+        <input type="number" id="Quantity" v-model="counter"
             class="h-10 w-16 outline-none border-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none" />
 
         <button type="button" @click="increase"
@@ -17,13 +17,18 @@
 
 <script setup lang="ts">
 const counter = ref(1)
+const emit = defineEmits<{
+    (event: 'counter', data: string | number): void
+}>()
 const increase = () => {
     counter.value++
+    emit('counter', counter.value)
 }
 
 const decrease = () => {
     if (counter.value !== 1) {
         counter.value--
+        emit('counter', counter.value)
     }
 
 }

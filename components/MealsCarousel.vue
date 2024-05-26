@@ -42,7 +42,7 @@
         </div>
       </section>
     </section>
-    <ModalsProductPreview :show="showPreview" :product="selectedProduct" />
+    <ModalsProductPreview @update:show="showPreview = false" :show="showPreview" :product="selectedProduct" />
   </main>
 </template>
 
@@ -70,7 +70,7 @@ const images = ref([
       }
     ],
     sizeList: ['S','MD','L','XL','XXL'],
-    quantity: 30,
+    stock: 30,
     price: "5000"
   },
   {
@@ -88,7 +88,7 @@ const images = ref([
       }
     ],
     sizeList: ['S', 'MD', 'L', 'XL', 'XXL'],
-    quantity: 30,
+    stock: 30,
     price: '3000',
   },
   {
@@ -106,7 +106,7 @@ const images = ref([
       }
     ],
     sizeList: ['S', 'MD', 'L', 'XL', 'XXL'],
-    quantity: 30,
+    stock: 30,
     price: '2000',
   }
 ])

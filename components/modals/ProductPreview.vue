@@ -31,6 +31,10 @@
                                     <h3 id="information-heading" class="sr-only">Product information</h3>
 
                                     <p class="text-2xl text-gray-900">₦ {{ product.price }}</p>
+                                    <p class="mt-2">
+                                        <span class="text-xs rounded-full bg-green-500 px-6 py-1.5 text-white">{{
+        product.stock }} units available in stock</span>
+                                    </p>
 
                                     <!-- Reviews -->
                                     <div class="mt-3">
@@ -57,12 +61,13 @@
                                     <div class="space-y-4">
                                         <div>
                                             <h4 class="text-sm text-gray-600">Size</h4>
-                                            <ProductSizes :sizeList="product.sizeList" />
+                                            <ProductSizes @selectedSize="handleSelectedSize"
+                                                :sizeList="product.sizeList" />
                                         </div>
                                         <div class="space-y-3">
                                             <h4 class="text-sm text-gray-600">Quantity</h4>
 
-                                            <ProductQuantity />
+                                            <ProductQuantity @counter="handleCount" />
                                         </div>
                                         <div class="">
                                             <button class="font-semibold text-gray-900" type="button"
@@ -79,7 +84,7 @@
                                         </div>
 
                                         <div class="mt-6 flex items-center gap-x-4">
-                                            <button @click="addToCart" type="button"
+                                            <button @click="handleCart" type="button"
                                                 class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Add
                                                 to cart</button>
                                             <button type="button" @click="payNow"
@@ -95,12 +100,14 @@
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script setup lang="ts">
 import { useFlutterwaveSDK } from '@/composables/payment/flutterwave'
+import { useUUID } from '@/composables/core/useUUID'
+import { useCreateCart } from '@/composables/cart/create'
+const { addToCart, cartList } = useCreateCart()
+const { uuid, generateUUID } = useUUID()
 const { handlePayment, paymentForm } = useFlutterwaveSDK()
 const props = defineProps<{ show: boolean, product: any }>();
 const emit = defineEmits(['update:show']);
@@ -109,20 +116,42 @@ const closeModal = () => {
     emit('update:show', false);
 };
 
+const productCount = ref(1)
+const productSize = ref('S')
+
 const toggleTestimonials = () => {
     showTestimonials.value = !showTestimonials.value
 }
 
-const addToCart = () => {
+const handleCart = () => {
+    generateUUID()
+    const { sizeList, testimonials, ...rest } = props.product
+    const payload = {
+        id: uuid.value,
+        count: productCount.value,
+        size: productSize.value,
+        ...rest,
+    }
+    addToCart(payload)
     useNuxtApp().$toast.success("Item was successfully added to cart.", {
         autoClose: 5000,
         dangerouslyHTMLString: true,
     });
+    closeModal()
 }
 
 const payNow = () => {
     paymentForm.value.amount = props.product.price
     handlePayment()
+}
+
+const handleCount = (count: any) => {
+    console.log(count, 'count here')
+    productCount.value = count
+}
+
+const handleSelectedSize = (size: any) => {
+    productSize.value = size
 }
 </script>
 

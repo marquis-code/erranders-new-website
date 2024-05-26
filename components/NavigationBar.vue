@@ -1,5 +1,5 @@
 <template>
-    <section class="bg-white border-[0.6px] border-gray-100 h-20 shadow">
+    <section class="bg-white border-[0.6px] border-gray-100 h-20 shadow sticky top-0 z-50">
         <header class="absolute inset-x-0 top-0 z-20 max-w-7xl mx-auto">
             <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div class="flex lg:flex-1">

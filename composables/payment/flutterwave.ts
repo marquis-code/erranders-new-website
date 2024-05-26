@@ -1,10 +1,10 @@
 import { useFlutterwave } from "flutterwave-vue3";
 // import { useLogin } from "@/composables/auth/login";
 import logo from "@/assets/img/logo.png";
-
 export const useFlutterwaveSDK = () => {
 //   const { localstorageData } = useLogin();
 //   const user = localstorageData.user.value;
+const router = useRouter()
 const user = ref({
     firstname: 'Marquis',
     lastname: 'Abah',
@@ -24,7 +24,10 @@ const user = ref({
     useFlutterwave({
       amount: Number(paymentForm.value.amount),
       callback(data: any): void {
-        console.log(data);
+        console.log(data.flw_ref, 'here')
+        if(data.status === 'successful'){
+          router.push(`/${data.flw_ref}/order-summary`)
+        }
       },
       country: "NG",
       currency: "NGN",
