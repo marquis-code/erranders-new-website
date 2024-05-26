@@ -1,7 +1,7 @@
 <template>
     <main class="relative lg:min-h-full">
         <div class="h-80 overflow-hidden lg:absolute lg:h-full lg:w-1/2 lg:pr-4 xl:pr-12">
-            <img src="https://tailwindui.com/img/ecommerce-images/confirmation-page-06-hero.jpg" alt="TODO"
+            <img src="@/assets/img/market3.png" alt="TODO"
                 class="h-full w-full object-cover object-center">
         </div>
 
@@ -79,8 +79,8 @@
                         </div>
                     </dl>
 
-                    <dl class="mt-16 grid grid-cols-3 gap-x-4 text-sm text-gray-600">
-                        <div>
+                    <dl class="mt-16 grid grid-cols-2 gap-x-4 text-sm text-gray-600">
+                        <!-- <div>
                             <dt class="font-medium text-gray-900">Shipping Address</dt>
                             <dd class="mt-2">
                                 <address class="not-italic">
@@ -89,7 +89,7 @@
                                     <span class="block">Luth, idi-araba Lagos.</span>
                                 </address>
                             </dd>
-                        </div>
+                        </div> -->
                         <div>
                             <dt class="font-medium text-gray-900">Errander Information</dt>
                             <dd class="mt-2">

@@ -26,7 +26,7 @@ const user = ref({
       callback(data: any): void {
         console.log(data.flw_ref, 'here')
         if(data.status === 'successful'){
-          router.push(`/${data.flw_ref}/order-summary`)
+          location.href = `/${data.flw_ref}/order-summary`
         }
       },
       country: "NG",
