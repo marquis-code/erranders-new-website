@@ -52,6 +52,6 @@ const user = ref({
       tx_ref: "tx_ref_herer_h92hjyj3",
     });
   };
-
-  return { handlePayment, paymentForm };
+  
+  return { handlePayment, paymentForm, loading };
 };

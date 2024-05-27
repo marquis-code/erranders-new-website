@@ -2,11 +2,13 @@
     <div v-if="show" class="relative z-10 rounded-xl" role="dialog" aria-modal="true">
         <div class="fixed inset-0 hidden bg-gray-500 bg-opacity-75 transition-opacity md:block"></div>
         <div class="fixed inset-0 z-10 w-screen overflow-y-auto rounded-xl">
-            <div class="flex min-h-full items-stretch justify-center text-center md:items-center md:px-2 lg:px-4">
+            <div
+                class="flex min-h-full items-stretch justify-center flex-col text-center md:items-center md:px-2 lg:px-4">
                 <div
-                    class="flex w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
+                    class="flex  w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
                     <div
                         class="relative flex w-full items-center overflow-hidden bg-white rounded-2xl px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
+
                         <button @click="show = false" type="button"
                             class="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8">
                             <span class="sr-only">Close</span>
@@ -15,8 +17,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
-
-                        <div class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
+                        <div v-if="purchaseStep === 'product-details'"
+                            class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                             <div class="sm:col-span-4 lg:col-span-5">
                                 <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
                                     <img :src="product.imgUrl"
@@ -35,13 +37,10 @@
                                         <span class="text-xs rounded-full bg-green-500 px-6 py-1.5 text-white">{{
         product.stock }} units available in stock</span>
                                     </p>
-
-                                    <!-- Reviews -->
                                     <div class="mt-3">
                                         <h4 class="sr-only">Reviews</h4>
                                         <div class="flex items-center">
                                             <div class="flex items-center">
-                                                <!-- Active: "text-gray-400", Inactive: "text-gray-200" -->
                                                 <ProductStarRating :rating="Number(product.rating)" />
                                             </div>
                                             <p class="sr-only">3.9 out of 5 stars</p>
@@ -87,7 +86,7 @@
                                             <button @click="handleCart" type="button"
                                                 class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Add
                                                 to cart</button>
-                                            <button type="button" @click="payNow"
+                                            <button type="button" @click="purchaseStep = 'payment-methods'"
                                                 class="flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50">Buy
                                                 now</button>
                                         </div>
@@ -95,26 +94,79 @@
                                 </section>
                             </div>
                         </div>
+                        <div v-if="purchaseStep === 'payment-methods'" class="w-full pt-6">
+                            <div class="p-4  bg-white rounded-lg min-w-4xl">
+                                <h2 class="text-base font-semibold mb-4">Select a Payment Option</h2>
+                                <div class="space-y-4">
+                                    <div v-for="option in paymentOptions" :key="option.id" class="mb-2">
+                                        <label
+                                            class="flex items-center space-x-3 bg-gray-50 pl-3 border rounded cursor-pointer">
+                                            <input type="radio" :value="option.id" v-model="selectedOption"
+                                                class="form-radio h-4 w-4 text-blue-600" />
+                                            <div class="p-2 flex-1  flex items-center gap-x-2">
+                                                <img :src="option.icon" alt="" class="h-8 w-8" />
+                                                {{ option.name }}
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mt-10 w-full">
+                                    <button
+                                        :disabled="selectedOption === 'transfer' ? processingPayment : processingCashPayment"
+                                        @click="submitPaymentOption"
+                                        class="px-4 disabled:cursor-not-allowed disabled:opacity-25 w-full py-3.5 bg-blue-600 text-white rounded">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 </template>
 
 <script setup lang="ts">
 import { useFlutterwaveSDK } from '@/composables/payment/flutterwave'
-import { useUUID } from '@/composables/core/useUUID'
-import { useCreateCart } from '@/composables/cart/create'
-const { addToCart, cartList } = useCreateCart()
-const { uuid, generateUUID } = useUUID()
-const { handlePayment, paymentForm } = useFlutterwaveSDK()
+import { useCashPayment } from '@/composables/payment/cashPayment'
+import { usePopulateCart } from '@/composables/cart/usePopulateCart'
+import cashPayment from '@/assets/icons/cash.svg'
+import transferPayment from '@/assets/icons/transfer.svg'
+const { handleCashPayment, processing: processingCashPayment } = useCashPayment()
+const { populateCart } = usePopulateCart()
+const { handlePayment, paymentForm, loading } = useFlutterwaveSDK()
+const router = useRouter()
 const props = defineProps<{ show: boolean, product: any }>();
 const emit = defineEmits(['update:show']);
 const showTestimonials = ref(false)
 const closeModal = () => {
     emit('update:show', false);
 };
+
+interface PaymentOption {
+    id: string
+    name: string,
+    icon: string
+}
+
+const paymentOptions: PaymentOption[] = [
+    { id: 'cash', name: 'Pay with cash', icon: cashPayment },
+    { id: 'transfer', name: 'Pay with Transfer', icon: transferPayment },
+]
+
+const selectedOption = ref<string>(paymentOptions[0].id)
+const processingPayment = ref(false)
+const submitPaymentOption = () => {
+    handleCart({
+        type: selectedOption.value
+    })
+}
+const paymentMethod = ref('card')
+
+const purchaseStep = ref('product-details')
 
 const productCount = ref(1)
 const productSize = ref('S')
@@ -123,30 +175,19 @@ const toggleTestimonials = () => {
     showTestimonials.value = !showTestimonials.value
 }
 
-const handleCart = () => {
-    generateUUID()
-    const { sizeList, testimonials, ...rest } = props.product
-    const payload = {
-        id: uuid.value,
-        count: productCount.value,
-        size: productSize.value,
+const handleCart = (payload: any) => {
+    const { sizeList, testimonials, ...rest } = props.product;
+    populateCart({
+        productCount: productCount.value,
         ...rest,
-    }
-    addToCart(payload)
-    useNuxtApp().$toast.success("Item was successfully added to cart.", {
-        autoClose: 5000,
-        dangerouslyHTMLString: true,
-    });
+        productSize: productSize.value,
+        paymentMode: payload.type
+    })
     closeModal()
 }
 
-const payNow = () => {
-    paymentForm.value.amount = props.product.price
-    handlePayment()
-}
 
 const handleCount = (count: any) => {
-    console.log(count, 'count here')
     productCount.value = count
 }
 
@@ -160,5 +201,18 @@ const handleSelectedSize = (size: any) => {
     .modal-content {
         width: 50%;
     }
+}
+
+.form-radio {
+    --tw-ring-inset: var(--tw-empty,
+            /*!*/
+            /*!*/
+        );
+    --tw-ring-offset-width: 0px;
+    --tw-ring-offset-color: #fff;
+    --tw-ring-color: rgba(59, 130, 246, 0.5);
+    --tw-ring-opacity: 1;
+    --tw-ring-shadow: 0 0 #0000;
+    --tw-shadow: 0 0 #0000;
 }
 </style>
