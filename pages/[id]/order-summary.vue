@@ -35,6 +35,8 @@
                         </div>
                     </div>
 
+                    <CoreLeafletMap />
+
                     <dl class="mt-3 text-sm font-medium">
                         <dt class="text-gray-900">Tracking number</dt>
                         <dd class="mt-2 text-indigo-600">{{ route.params.id }}</dd>
