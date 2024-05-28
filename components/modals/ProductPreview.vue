@@ -17,7 +17,7 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         </button>
-                        <div v-if="purchaseStep === 'product-details'"
+                        <div
                             class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                             <div class="sm:col-span-4 lg:col-span-5">
                                 <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
@@ -94,32 +94,6 @@
                                 </section>
                             </div>
                         </div>
-                        <div v-if="purchaseStep === 'payment-methods'" class="w-full pt-6">
-                            <div class="p-4  bg-white rounded-lg min-w-4xl">
-                                <h2 class="text-base font-semibold mb-4">Select a Payment Option</h2>
-                                <div class="space-y-4">
-                                    <div v-for="option in paymentOptions" :key="option.id" class="mb-2">
-                                        <label
-                                            class="flex items-center space-x-3 bg-gray-50 pl-3 border rounded cursor-pointer">
-                                            <input type="radio" :value="option.id" v-model="selectedOption"
-                                                class="form-radio h-4 w-4 text-blue-600" />
-                                            <div class="p-2 flex-1  flex items-center gap-x-2">
-                                                <img :src="option.icon" alt="" class="h-8 w-8" />
-                                                {{ option.name }}
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="mt-10 w-full">
-                                    <button
-                                        :disabled="selectedOption === 'transfer' ? processingPayment : processingCashPayment"
-                                        @click="submitPaymentOption"
-                                        class="px-4 disabled:cursor-not-allowed disabled:opacity-25 w-full py-3.5 bg-blue-600 text-white rounded">
-                                        Submit
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -133,8 +107,6 @@
 import { useFlutterwaveSDK } from '@/composables/payment/flutterwave'
 import { useCashPayment } from '@/composables/payment/cashPayment'
 import { usePopulateCart } from '@/composables/cart/usePopulateCart'
-import cashPayment from '@/assets/icons/cash.svg'
-import transferPayment from '@/assets/icons/transfer.svg'
 const { handleCashPayment, processing: processingCashPayment } = useCashPayment()
 const { populateCart } = usePopulateCart()
 const { handlePayment, paymentForm, loading } = useFlutterwaveSDK()
@@ -145,28 +117,20 @@ const showTestimonials = ref(false)
 const closeModal = () => {
     emit('update:show', false);
 };
+// const paymentOptions: PaymentOption[] = [
+//     { id: 'cash', name: 'Pay with cash', icon: cashPayment },
+//     { id: 'transfer', name: 'Pay with Transfer', icon: transferPayment },
+// ]
 
-interface PaymentOption {
-    id: string
-    name: string,
-    icon: string
-}
+// const selectedOption = ref<string>(paymentOptions[0].id)
+// const submitPaymentOption = () => {
+//     handleCart({
+//         type: selectedOption.value
+//     })
+// }
+// const paymentMethod = ref('card')
 
-const paymentOptions: PaymentOption[] = [
-    { id: 'cash', name: 'Pay with cash', icon: cashPayment },
-    { id: 'transfer', name: 'Pay with Transfer', icon: transferPayment },
-]
-
-const selectedOption = ref<string>(paymentOptions[0].id)
-const processingPayment = ref(false)
-const submitPaymentOption = () => {
-    handleCart({
-        type: selectedOption.value
-    })
-}
-const paymentMethod = ref('card')
-
-const purchaseStep = ref('product-details')
+// const purchaseStep = ref('product-details')
 
 const productCount = ref(1)
 const productSize = ref('S')
