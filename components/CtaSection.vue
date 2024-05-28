@@ -23,7 +23,8 @@
             </div>
             <div data-aos="flip-left"
                 class="relative lg:col-span-5 lg:-mr-8 xl:absolute xl:inset-0 xl:left-1/2 xl:mr-0 pt-10 hidden lg:block">
-                <svg width="850" height="894" viewBox="0 0 975 894" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 975 894" class="max-w-screen-2xl pt-44 max-h-screen-2xl" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M555.5 732L448.5 722.5L393 680M393 680L382 716.5M393 680L394.968 666.221M423.5 557.5L395 666L394.968 666.221M394.968 666.221L380.5 661L369.5 706.5"
                         stroke="#09A24F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
