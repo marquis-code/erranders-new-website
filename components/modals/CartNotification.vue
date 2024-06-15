@@ -16,7 +16,8 @@
                         <div class="ml-3 w-0 flex-1 pt-0.5">
                             <p class="text-sm font-medium text-gray-900">Successful!</p>
                             <p class="mt-1 text-sm text-gray-500">You have successfully added an item to cart.</p>
-                            <button @click="openCart" type="button" class="font-semibold text-sm text-green-700 mt-2">View cart ({{ cartList.length || 0
+                            <button @click="handleClick" type="button"
+                                class="font-semibold text-sm text-green-700 mt-2">View cart ({{ cartList.length || 0
                                 }})</button>
                         </div>
                         <div class="ml-4 flex flex-shrink-0">
@@ -39,9 +40,12 @@
 <script setup lang="ts">
 import { useCreateCart } from '@/composables/cart/create'
 const { cartList, openCart } = useCreateCart()
+const route = useRoute()
+const router = useRouter()
 
 const handleClick = () => {
-    console.log('Hello world')
+    router.push({ path: route.path, query: { section: 'cart-list' } })
+    openCart()
 }
 
 </script>
