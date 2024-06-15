@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: "https://doctrack.lordvidex.com/v1",
+  baseURL: "https://erranders-api-service.onrender.com/api/v1",
 });
 
 axiosInstance.interceptors.request.use((config: any) => {
