@@ -22,52 +22,40 @@
                     </div>
                     <nav data-aos="flip-left" class="isolate hidden lg:flex lg:w-10/12 mx-auto" aria-label="Tabs">
                         <!-- Current: "text-gray-900", Default: "text-gray-500 hover:text-gray-700" -->
-                        <a href="#" data-aos="flip-left"
-                            class="text-gray-900 rounded-l-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10"
+                        <a href.prevent="#" @click="setActiveVendor('mama_chidera')" data-aos="flip-left" :class="[activeVendor === 'mama_chidera' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-900 rounded-l-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10"
                             aria-current="page">
                             <span>Mama Chidera</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href="#" data-aos="flip-left"
-                            class="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('aunty_iyabo')" data-aos="flip-left" :class="[activeVendor === 'aunty_iyabo' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Aunty Iyabo</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href="#" data-aos="flip-left"
-                            class="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('just_spices')" data-aos="flip-left" :class="[activeVendor === 'just_spices' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Just Spices</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href="#" data-aos="flip-left"
-                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('tandalicious')" data-aos="flip-left" :class="[activeVendor === 'tandalicious' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Tandalicious</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href="#" data-aos="flip-left"
-                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('dapos_pancakes')" data-aos="flip-left" :class="[activeVendor === 'dapos_pancakes' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Dapos Pancake</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href="#" data-aos="flip-left"
-                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden bg-white py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('iya_tinu')" data-aos="flip-left" :class="[activeVendor === 'iya_tinu' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Iya Tinu</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
                     </nav>
                 </div>
-
-                <div data-aos="flip-left" class="flex xl:hidden justify-between items-center gap-x-10 overflow-x-auto">
-                    <img data-aos="flip-left" src="@/assets/icons/stores/yemyem.svg" alt="" class="w-52 cursor-pointer" />
-                    <img data-aos="flip-left" src="@/assets/icons/stores/iyabo.svg" alt="" class="w-52 cursor-pointer" />
-                    <img data-aos="flip-left" src="@/assets/icons/stores/chijoke.svg" alt="" class="w-52 cursor-pointer" />
-                    <img data-aos="flip-left" src="@/assets/icons/stores/chidera.svg" alt="" class="w-52 cursor-pointer" />
-                </div>
-                <div data-aos="flip-left" class="flex justify-center items-center gap-x-7 overflow-x-auto">
-                    <img data-aos="flip-left" src="@/assets/img/market1.png" alt="" class="w-[290px] h-[281px]" />
-                    <img data-aos="flip-left" src="@/assets/img/market2.png" alt="" class="w-[290px] h-[281px]" />
-                    <img data-aos="flip-left" src="@/assets/img/market3.png" alt="" class="w-[290px] h-[281px]" />
-                    <img data-aos="flip-left" src="@/assets/img/market4.png" alt="" class="w-[290px] h-[281px]" />
-                </div>
+                <VendorStore :name="activeVendor" :products="[]" />
             </div>
             <div data-aos="flip-left" class="flex justify-center items-center pt-10">
                 <button @click="router.push('/marketplace')" class="text-white font-medium text-sm px-6 py-4 rounded-full bg-[#0BCA63]">View the market
@@ -79,4 +67,9 @@
 
 <script setup lang="ts">
 const router = useRouter()
+const activeVendor = ref('mama_chidera') as any
+
+const setActiveVendor = (vendor: string) => {
+    activeVendor.value = vendor
+}
 </script>
