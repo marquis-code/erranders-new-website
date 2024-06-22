@@ -30,17 +30,17 @@
         </div>
         <div v-if="activeStep === 'business-info'" class="space-y-6 pt-10">
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Name of Business</label>
+                <label for="businessName" class="block text-sm font-medium leading-6 text-[#0D0C22]">Name of Business</label>
                 <div class="mt-0.5">
-                    <input type="email" name="email" id="email"
+                    <input type="text" name="businessName" id="businessName" v-model="registerPayload.businessName"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="you@example.com">
+                        placeholder="">
                 </div>
             </div>
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Business email</label>
                 <div class="relative mt-0.5 rounded-md shadow-sm">
-                    <input type="email" name="email" id="email"
+                    <input type="email" name="email" id="email" v-model="registerPayload.businessEmail"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 pr-10 text-red-900  ring-red-300 placeholder:text-red-300 placeholder:font-light focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
                         placeholder="you@example.com" value="adamwathan" aria-invalid="true"
                         aria-describedby="email-error">
@@ -52,26 +52,26 @@
                         </svg>
                     </div>
                 </div>
-                <p class="mt-0.5 text-sm text-red-600" id="email-error">Not a valid email address.</p>
+                <p class="mt-0.5 text-sm text-red-600" id="email-error">Not a valid email address</p>
             </div>
 
 
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Password</label>
+                <label for="password" class="block text-sm font-medium leading-6 text-[#0D0C22]">Password</label>
                 <div class="mt-0.5 relative">
-                    <input name="email" id="email" :type="showPassword ? 'text' : 'password'"
+                    <input name="password" id="password" :type="showPassword ? 'text' : 'password'"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="you@example.com">
+                        placeholder="">
                     <img :src="eye" alt="" class="absolute right-4 top-4 h-6 w-6 cursor-pointer" />
                 </div>
             </div>
 
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Confirm password</label>
+                <label for="confirmPassword" class="block text-sm font-medium leading-6 text-[#0D0C22]">Confirm password</label>
                 <div class="mt-0.5 relative">
-                    <input type="email" name="email" id="email"
+                    <input type="password" name="confirmPassword" id="confirmPassword"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="you@example.com">
+                        placeholder="">
                     <img :src="eye" alt="" class="absolute right-4 top-4 h-6 w-6 cursor-pointer" />
                 </div>
             </div>
@@ -136,6 +136,8 @@
 </template>
 
 <script lang="ts" setup>
+import { useVendorSignup } from '@/composables/onboarding/vendorSignup'
+const { registerPayload, handleRegister, loading, isFormEmpty } = useVendorSignup()
 import eyeOpen from '@/assets/icons/eye-open.svg'
 import eyeClose from '@/assets/icons/eye-close.svg'
 const router = useRouter()
@@ -143,7 +145,7 @@ const showPassword = ref(false)
 const activeStep = ref('business-info')
 
 const eye = computed(() => {
-    return showPassword.value ? eyeClose : eyeOpen
+    return !showPassword.value ? eyeClose : eyeOpen
 })
 const processing = ref(false)
 

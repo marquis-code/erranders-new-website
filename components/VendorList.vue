@@ -22,34 +22,34 @@
                     </div>
                     <nav data-aos="flip-left" class="isolate hidden lg:flex lg:w-10/12 mx-auto" aria-label="Tabs">
                         <!-- Current: "text-gray-900", Default: "text-gray-500 hover:text-gray-700" -->
-                        <a href.prevent="#" @click="setActiveVendor('mama_chidera')" data-aos="flip-left" :class="[activeVendor === 'mama_chidera' ? 'bg-gray-100' : 'bg-white']"
-                            class="text-gray-900 rounded-l-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10"
+                        <a href.prevent="#" @click="setActiveVendor('mama_chidera')" :class="[activeVendor === 'mama_chidera' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-900 cursor-pointer rounded-l-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-4 text-center text-sm font-medium hover:bg-gray-50 focus:z-10"
                             aria-current="page">
                             <span>Mama Chidera</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href.prevent="#" @click="setActiveVendor('aunty_iyabo')" data-aos="flip-left" :class="[activeVendor === 'aunty_iyabo' ? 'bg-gray-100' : 'bg-white']"
-                            class="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('aunty_iyabo')" :class="[activeVendor === 'aunty_iyabo' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 cursor-pointer hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Aunty Iyabo</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href.prevent="#" @click="setActiveVendor('just_spices')" data-aos="flip-left" :class="[activeVendor === 'just_spices' ? 'bg-gray-100' : 'bg-white']"
-                            class="text-gray-500 hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('just_spices')" :class="[activeVendor === 'just_spices' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 cursor-pointer hover:text-gray-700 group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Just Spices</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href.prevent="#" @click="setActiveVendor('tandalicious')" data-aos="flip-left" :class="[activeVendor === 'tandalicious' ? 'bg-gray-100' : 'bg-white']"
-                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('tandalicious')" :class="[activeVendor === 'tandalicious' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 cursor-pointer hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Tandalicious</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href.prevent="#" @click="setActiveVendor('dapos_pancakes')" data-aos="flip-left" :class="[activeVendor === 'dapos_pancakes' ? 'bg-gray-100' : 'bg-white']"
-                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('dapos_pancakes')" :class="[activeVendor === 'dapos_pancakes' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 cursor-pointer hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Dapos Pancake</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
-                        <a href.prevent="#" @click="setActiveVendor('iya_tinu')" data-aos="flip-left" :class="[activeVendor === 'iya_tinu' ? 'bg-gray-100' : 'bg-white']"
-                            class="text-gray-500 hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
+                        <a href.prevent="#" @click="setActiveVendor('iya_tinu')" :class="[activeVendor === 'iya_tinu' ? 'bg-gray-100' : 'bg-white']"
+                            class="text-gray-500 cursor-pointer hover:text-gray-700 rounded-r-lg group relative min-w-0 flex-1 overflow-hidden py-4 px-2 text-center text-sm font-medium hover:bg-gray-50 focus:z-10">
                             <span>Iya Tinu</span>
                             <span aria-hidden="true" class="bg-transparent absolute inset-x-0 bottom-0 h-0.5"></span>
                         </a>
