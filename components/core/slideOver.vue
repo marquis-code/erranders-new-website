@@ -27,7 +27,7 @@
                   <slot />
                 </div>
               </div>
-              <div class="flex flex-shrink-0 justify-end px-4 py-4">
+              <div v-if="showFooter" class="flex flex-shrink-0 justify-end px-4 py-4">
                 <button type="button"
                   class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400">Cancel</button>
                 <button type="submit"
@@ -45,6 +45,10 @@
 const props = defineProps({
   show: {
     type: Boolean
+  },
+  showFooter: {
+    type: Boolean,
+    default: true
   }
 })
 const emit = defineEmits<{

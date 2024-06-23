@@ -1,4 +1,4 @@
-import { onboardingAuthApiFactory } from "@/apiFactory/onboarding";
+import { authApiFactory } from "@/apiFactory/auth";
 
 export const useVendorSignup = () => {
   const loading = ref(false);
@@ -6,19 +6,17 @@ export const useVendorSignup = () => {
     businessName: "",
     businessEmail: "",
     password: "",
+    confirmPassword: "",
     phone: "",
-    cacRegisterationNumber: ''
+    registrationNumber: '',
+    businessAddress: '',
+    residentialAddress: '',
   });
 
   const handleRegister = async () => {
     loading.value = true;
     try {
-      const payload = {
-        firstName: registerPayload.value.firstName,
-        lastName: registerPayload.value.lastName,
-        email: registerPayload.value.email,
-        password: registerPayload.value.password,
-      };
+      const { confirmPassword, ...payload } = registerPayload.value 
 
       const response = await authApiFactory.register(payload);
       useNuxtApp().$toast.success("Account was successfully created.", {
@@ -26,7 +24,7 @@ export const useVendorSignup = () => {
         dangerouslyHTMLString: true,
       });
       useRouter().push("/login");
-    } catch (error) {
+    } catch (error: any) {
       useNuxtApp().$toast.error(error.message, {
         autoClose: 5000,
         dangerouslyHTMLString: true,
@@ -36,17 +34,24 @@ export const useVendorSignup = () => {
       loading.value = false;
     }
   };
-
-  const isFormEmpty = computed(() => {
+  
+  const isSecondFormEmpty = computed(() => {
     return !!(
-      registerPayload.value.firstName &&
-      registerPayload.value.lastName &&
-      registerPayload.value.email &&
+      registerPayload.value.phone &&
+      registerPayload.value.registrationNumber &&
+      registerPayload.value.businessAddress &&
+      registerPayload.value.residentialAddress
+    );
+  });
+
+  const isFirstFormEmpty = computed(() => {
+    return !!(
+      registerPayload.value.businessEmail &&
+      registerPayload.value.businessEmail &&
+      registerPayload.value.confirmPassword &&
       registerPayload.value.password
     );
   });
 
-  
-
-  return { registerPayload, handleRegister, loading, isFormEmpty };
+  return { registerPayload, handleRegister, loading, isSecondFormEmpty, isFirstFormEmpty };
 };

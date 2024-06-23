@@ -10,15 +10,15 @@ const router = useRouter()
 const { localstorageData, isLoggedIn } = useLogin()
 onMounted(() => {
     if (isLoggedIn.value && localstorageData.user.value.role === 'store-agent') {
-        router.push('/dashboard/store');
+        router.push('/dashboard/vendor');
     }
 
     if (isLoggedIn.value && localstorageData.user.value.role === 'delivery-agent') {
-        router.push('/dashboard/delivery');
+        router.push('/dashboard/errander');
     }
 
     if (isLoggedIn.value && localstorageData.user.value.role === 'user') {
-        router.push('/dashboard/user');
+        router.push('/dashboard/customer');
     }
 
     if(!isLoggedIn){

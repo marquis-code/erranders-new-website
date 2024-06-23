@@ -1,5 +1,6 @@
 <template>
-    <main>
+    <form @submit.prevent="handleRegister">
+        {{ registerPayload }}
         <div class="flex justify-between items-start">
             <div>
                 <svg @click="router.back(-1)" class="cursor-pointer" width="68" height="24" viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,146 +19,125 @@
                     {{ activeStep === 'business-info' ? `Business Info` : `Residency Info`}}
                 </h1>
             </div>
-
-
         </div>
         <div>
-            <h1 class="text-3xl lg:text-4xl font-semibold max-w-sm text-gray-800">{{activeStep === 'business-info' ? `Register business 
+            <h1 class="text-3xl lg:text-3xl font-semibold max-w-sm text-gray-800">{{activeStep === 'business-info' ? `Register business 
                 account` : `Complete your
                 profile`}}</h1>
             <p class="font-light leading-loose max-w-lg">For the purpose of industry regulation, your details are
                 required.</p>
         </div>
-        <div v-if="activeStep === 'business-info'" class="space-y-6 pt-10">
+        <div v-if="activeStep === 'business-info'" class="space-y-6 pt-6">
             <div>
                 <label for="businessName" class="block text-sm font-medium leading-6 text-[#0D0C22]">Name of Business</label>
                 <div class="mt-0.5">
                     <input type="text" name="businessName" id="businessName" v-model="registerPayload.businessName"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="">
+                        placeholder="Enter your business name">
                 </div>
             </div>
             <div>
                 <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Business email</label>
-                <div class="relative mt-0.5 rounded-md shadow-sm">
-                    <input type="email" name="email" id="email" v-model="registerPayload.businessEmail"
-                        class="block w-full rounded-md border border-gray-100 p-3 py-3.5 pr-10 text-red-900  ring-red-300 placeholder:text-red-300 placeholder:font-light focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
-                        placeholder="you@example.com" value="adamwathan" aria-invalid="true"
-                        aria-describedby="email-error">
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                        <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-                <p class="mt-0.5 text-sm text-red-600" id="email-error">Not a valid email address</p>
+                <CoreEmailInput @completed="handleEmail" />
             </div>
-
 
             <div>
                 <label for="password" class="block text-sm font-medium leading-6 text-[#0D0C22]">Password</label>
                 <div class="mt-0.5 relative">
-                    <input name="password" id="password" :type="showPassword ? 'text' : 'password'"
+                    <input name="password" id="password" :type="showPassword ? 'text' : 'password'"  v-model="registerPayload.password"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="">
-                    <img :src="eye" alt="" class="absolute right-4 top-4 h-6 w-6 cursor-pointer" />
+                        placeholder="Enter your password">
+                    <img :src="eye" @click="togglePasswordVisibility" alt="" class="absolute right-4 top-4 h-6 w-6 cursor-pointer" />
                 </div>
             </div>
 
             <div>
                 <label for="confirmPassword" class="block text-sm font-medium leading-6 text-[#0D0C22]">Confirm password</label>
                 <div class="mt-0.5 relative">
-                    <input type="password" name="confirmPassword" id="confirmPassword"
+                    <input name="confirmPassword" id="confirmPassword" :type="showConfirmPassword ? 'text' : 'password'" v-model="registerPayload.confirmPassword"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="">
-                    <img :src="eye" alt="" class="absolute right-4 top-4 h-6 w-6 cursor-pointer" />
+                        placeholder="Confirm your password">
+                    <img :src="confirmEye" @click="toggleConfirmPasswordVisibility" alt="" class="absolute right-4 top-4 h-6 w-6 cursor-pointer" />
                 </div>
             </div>
 
             <div class="w-full pt-6">
-                <button type="button" @click="activeStep = 'residency-info'"
-                    class="text-white bg-[#0BCA63] px-6 py-3.5 clear-left w-full rounded-full">Next</button>
+                <button :disabled="!isFirstFormEmpty" type="button" @click="activeStep = 'residency-info'"
+                    class="text-white bg-[#0BCA63] disabled:cursor-not-allowed disabled:opacity-25 px-6 py-3.5 clear-left w-full rounded-full">Next</button>
             </div>
         </div>
-        <div v-if="activeStep === 'residency-info'" class="space-y-6 pt-10">
+        <div v-if="activeStep === 'residency-info'" class="space-y-6 pt-6">
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Business phone
+                <label for="phone" class="block text-sm font-medium leading-6 text-[#0D0C22]">Business phone
                     number</label>
                 <div class="mt-0.5">
-                    <input type="email" name="email" id="email"
+                    <input type="phone" name="phone" id="phone" v-model="registerPayload.phone"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="you@example.com">
+                        placeholder="Enter your phone number">
                 </div>
             </div>
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">CAC registration
+                <label for="registrationNumber" class="block text-sm font-medium leading-6 text-[#0D0C22]">CAC registration
                     number</label>
-                <div class="relative mt-0.5 rounded-md shadow-sm">
-                    <input type="email" name="email" id="email"
-                        class="block w-full rounded-md border border-gray-100 p-3 py-3.5 pr-10 text-red-900  ring-red-300 placeholder:text-red-300 placeholder:font-light focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
-                        placeholder="you@example.com" value="adamwathan" aria-invalid="true"
-                        aria-describedby="email-error">
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                        <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd"
-                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-5a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 0110 5zm0 10a1 1 0 100-2 1 1 0 000 2z"
-                                clip-rule="evenodd" />
-                        </svg>
-                    </div>
-                </div>
-                <p class="mt-0.5 text-sm text-red-600" id="email-error">Not a valid email address.</p>
+              <CoreCACInput @completed="handleValidCac" />
             </div>
 
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Business address</label>
+                <label for="businessAddress" class="block text-sm font-medium leading-6 text-[#0D0C22]">Business address</label>
                 <div class="mt-0.5">
-                    <input type="email" name="email" id="email"
+                    <input type="text" name="businessAddress" id="businessAddress"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="you@example.com">
+                        placeholder="Enter your business address">
                 </div>
             </div>
 
             <div>
-                <label for="email" class="block text-sm font-medium leading-6 text-[#0D0C22]">Location of residence</label>
-                <div class="mt-0.5">
-                    <input type="email" name="email" id="email"
-                        class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
-                        placeholder="you@example.com">
-                </div>
+                <label for="residentialAddress" class="block text-sm font-medium leading-6 text-[#0D0C22]">Location of residence</label>
+                <CoreAddressInput @address="handleUserAddress" />
             </div>
             <div class="w-full pt-6">
-                <button type="button" @click="createUser" :disabled="processing"
-                    class="text-white disabled:cursor-not-allowed disabled:opacity-25 bg-[#0BCA63] px-6 py-3.5 clear-left w-full rounded-full">{{processing ? 'saving...' : 'Next'}}</button>
+                <button type="submit" :disabled="loading && !isSecondFormEmpty"
+                    class="text-white disabled:cursor-not-allowed disabled:opacity-25 bg-[#0BCA63] px-6 py-3.5 clear-left w-full rounded-full">{{ loading ? 'saving...' : 'Next'}}</button>
             </div>
         </div>
-    </main>
+    </form>
 </template>
 
 <script lang="ts" setup>
 import { useVendorSignup } from '@/composables/onboarding/vendorSignup'
-const { registerPayload, handleRegister, loading, isFormEmpty } = useVendorSignup()
+const { registerPayload, handleRegister, loading, isFirstFormEmpty, isSecondFormEmpty } = useVendorSignup()
 import eyeOpen from '@/assets/icons/eye-open.svg'
 import eyeClose from '@/assets/icons/eye-close.svg'
 const router = useRouter()
 const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 const activeStep = ref('business-info')
 
 const eye = computed(() => {
     return !showPassword.value ? eyeClose : eyeOpen
 })
-const processing = ref(false)
 
-const createUser = () => {
-    processing.value = true
-    setTimeout(() => {
-        processing.value = false
-        router.push('/marketplace')
-        useNuxtApp().$toast.success("Account was successfully created", {
-            autoClose: 5000,
-            dangerouslyHTMLString: true,
-        });
-    }, 3000)
+const confirmEye = computed(() => {
+    return !showConfirmPassword.value ? eyeClose : eyeOpen
+})
+
+const togglePasswordVisibility = () => {
+    showPassword.value = !showPassword.value
+}
+
+const toggleConfirmPasswordVisibility = () => {
+    showConfirmPassword.value = !showConfirmPassword.value
+}
+
+const handleUserAddress = (address: any) => {
+    registerPayload.value.residentialAddress = address
+}
+
+const handleValidCac = (data: any) => {
+    registerPayload.value.registrationNumber = data
+}
+
+const handleEmail = (email: string) => {
+    registerPayload.value.businessEmail = email
 }
 </script>

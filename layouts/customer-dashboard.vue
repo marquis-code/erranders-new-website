@@ -253,14 +253,14 @@ const configNavigationList = ref([
   },
   {
     icon: help,
-    path: '/dashboard/vendor/orders',
+    path: '/dashboard/vendor/help',
     name: 'Help'
   },
-  {
-    icon: privacy,
-    path: '/dashboard/vendor/wallet',
-    name: 'Privacy'
-  }
+  // {
+  //   icon: privacy,
+  //   path: '/dashboard/vendor/wallet',
+  //   name: 'Privacy'
+  // }
 ])
 </script>
 

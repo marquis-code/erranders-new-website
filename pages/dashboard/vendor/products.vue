@@ -1,6 +1,9 @@
 <template>
     <main>
-        <div class="bg-white pt-10" v-if="defaultView === 'grid'">
+            <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+                <ProductForm />
+            </div>
+        <!-- <div class="bg-white pt-10" v-if="defaultView === 'grid'">
             <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <h2 class="sr-only">Products</h2>
 
@@ -49,8 +52,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- More products... -->
                 </div>
             </div>
         </div>
@@ -155,7 +156,7 @@
                     <div class="relative mt-2 rounded-md shadow-sm">
                         <input type="email" name="email" id="email"
                             class="block w-full rounded-md border-0 py-2.5 px-3 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
-                            placeholder="you@example.com" value="adamwathan" aria-invalid="true"
+                            placeholder="you@example.com"  aria-invalid="true"
                             aria-describedby="email-error">
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                             <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor"
@@ -175,7 +176,7 @@
                     <div class="relative mt-2 rounded-md shadow-sm">
                         <textarea rows="4" name="comment" id="comment"
                             class="block w-full rounded-md border-0 py-2.5 px-3 pr-10 text-red-900 ring-1 ring-inset ring-red-300 placeholder:text-red-300 focus:ring-2 focus:ring-inset focus:ring-red-500 sm:text-sm sm:leading-6"
-                            placeholder="you@example.com" value="adamwathan" aria-invalid="true"
+                            placeholder="you@example.com"  aria-invalid="true"
                             aria-describedby="email-error"></textarea>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                             <svg class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor"
@@ -238,35 +239,12 @@
                                 </svg>
                             </span>
                         </button>
-
-                        <!--
-                    Select popover, show/hide based on select state.
-              
-                    Entering: ""
-                      From: ""
-                      To: ""
-                    Leaving: "transition ease-in duration-100"
-                      From: "opacity-100"
-                      To: "opacity-0"
-                  -->
                         <ul class="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
                             tabindex="-1" role="listbox" aria-labelledby="listbox-label"
                             aria-activedescendant="listbox-option-3">
-                            <!--
-                      Select option, manage highlight styles based on mouseenter/mouseleave and keyboard navigation.
-              
-                      Highlighted: "bg-indigo-600 text-white", Not Highlighted: "text-gray-900"
-                    -->
                             <li class="text-gray-900 relative cursor-default select-none py-2 pl-3 pr-9"
                                 id="listbox-option-0" role="option">
-                                <!-- Selected: "font-semibold", Not Selected: "font-normal" -->
                                 <span class="font-normal block truncate">Wade Cooper</span>
-
-                                <!--
-                        Checkmark, only display for selected option.
-              
-                        Highlighted: "text-white", Not Highlighted: "text-indigo-600"
-                      -->
                                 <span class="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4">
                                     <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                         <path fill-rule="evenodd"
@@ -275,8 +253,6 @@
                                     </svg>
                                 </span>
                             </li>
-
-                            <!-- More items... -->
                         </ul>
                     </div>
                 </div>
@@ -317,22 +293,22 @@
         <CorePromptModal @proceed="handleDelete" :show="showConfirmProductDeleteModal"
             @update:show="showConfirmProductDeleteModal = false" title="Delete Product"
             description="Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone."
-            type="confirmation"></CorePromptModal>
+            type="confirmation"></CorePromptModal> -->
     </main>
 </template>
 
 <script setup lang="ts">
 // import { useDeleteProduct } from '@/composables/product/delete'
 // const { deleteProduct, processing } = useDeleteProduct()
-const defaultView = ref('list')
-const showSlideOver = ref(false)
-const showConfirmProductDeleteModal = ref(false)
+// const defaultView = ref('list')
+// const showSlideOver = ref(false)
+// const showConfirmProductDeleteModal = ref(false)
 definePageMeta({
     layout: 'customer-dashboard',
     middleware: 'auth'
 })
 
-const handleDelete = () => {
+// const handleDelete = () => {
 
-}
+// }
 </script>
