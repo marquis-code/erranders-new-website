@@ -10,6 +10,7 @@ const localstorageDate = {
   user: useStorage("user", {} as any),
   token: useStorage("token", ""),
 };
+const router = useRouter()
 watch(
   runtimeData.user,
   (val) => {
@@ -67,12 +68,14 @@ export const useLogin = () => {
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Nah, Just Kidding!",
+      confirmButtonText: "Yes, Logout!",
     }).then((result) => {
       if (result.value) {
         localStorage.clear();
         runtimeData.user.value = null;
-        location.href = "/login";
+        router.push('/register')
+        // location.href = "/login";
       } else {
         Swal.fire("Cancelled", "Action was cancelled", "info");
       }

@@ -27,7 +27,7 @@
                   @click.prevent="openSidebar = false"
                   class="bg-[#034091] text-white group flex items-center rounded-md px-2 py-2 text-base font-medium"
                   aria-current="page">
-                  <img :src="itm.icon" alt="icon" />
+                  <img :src="itm.icon" alt="icon" class="h-7 w-7 pr-2" />
                   {{ itm.name }}
                 </NuxtLink>
               </div>
@@ -36,11 +36,12 @@
                   <NuxtLink v-for="(item, idx) in configNavigationList" :key="idx" :to="item.path"
                     @click.prevent="openSidebar = false"
                     class="group flex items-center rounded-md px-2 py-2 text-base font-medium text-cyan-100 hover:bg-[#034091] hover:text-white">
-                    <svg class="mr-4 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    <!-- <svg class="mr-4 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                       stroke="currentColor" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round"
                         d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
-                    </svg>
+                    </svg> -->
+                    <img :src="item.icon" class="h-7 w-7 pr-2" alt="icon" />
                     {{ item.name }}
                   </NuxtLink>
                 </div>
@@ -69,7 +70,7 @@
         <!-- Sidebar component, swap this element with another sidebar if you like -->
         <div class="flex flex-grow flex-col overflow-y-auto bg-[#000C1B] pb-4 pt-5">
           <div class="flex flex-shrink-0 items-center px-4">
-            <img class="h-10 w-auto" src="@/assets/img/logo.png" alt="Easywire logo">
+            <img class="h-8 w-auto" src="@/assets/img/logo.png" alt="Easywire logo">
           </div>
           <nav class="mt-5 flex flex-1 flex-col divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
             <div class="space-y-2.5 px-2">
@@ -78,11 +79,12 @@
                 @click.prevent="openSidebar = false"
                 class="text-white group flex items-center rounded-md px-2 py-2 text-sm font-medium leading-6"
                 aria-current="page">
-                <svg class="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                <!-- <svg class="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                   stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round"
                     d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg>
+                </svg> -->
+                <img :src="itm.icon" class="h-7 w-7 pr-2" alt="icon" />
                 {{ itm.name }}
               </NuxtLink>
             </div>
@@ -91,11 +93,12 @@
                 <NuxtLink v-for="(item, idx) in configNavigationList" :key="idx" :to="item.path"
                   @click.prevent="openSidebar = false"
                   class="group flex items-center rounded-md px-2 py-2 text-sm font-medium leading-6 text-cyan-100 hover:bg-[#034091] hover:text-white">
-                  <svg class="mr-4 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                  <!-- <svg class="mr-4 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round"
                       d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
-                  </svg>
+                  </svg> -->
+                  <img :src="item.icon" class="h-7 w-7 pr-2" alt="icon" />
                   {{ item.name }}
                 </NuxtLink>
               </div>
@@ -203,14 +206,13 @@
 </template>
 
 <script setup lang="ts">
-import dashboard from '@/assets/icons/dashboard.svg'
-import orders from '@/assets/icons/orders.svg'
-import wallet from '@/assets/icons/wallet.svg'
-import products from '@/assets/icons/products.svg'
-import analytics from '@/assets/icons/analytics.svg'
-import settings from '@/assets/icons/settings.svg'
-import help from '@/assets/icons/help.svg'
-import privacy from '@/assets/icons/privacy.svg'
+import dashboard from '@/assets/icons/dash-home.svg'
+import orders from '@/assets/icons/dash-orders.svg'
+import wallet from '@/assets/icons/dash-wallet.svg'
+import products from '@/assets/icons/dash-products.svg'
+import analytics from '@/assets/icons/dash-analytics.svg'
+import settings from '@/assets/icons/dash-settings.svg'
+import help from '@/assets/icons/dash-help.svg'
 
 import { useLogin } from '@/composables/auth/login'
 const { logOut } = useLogin()
@@ -256,11 +258,6 @@ const configNavigationList = ref([
     path: '/dashboard/vendor/help',
     name: 'Help'
   },
-  // {
-  //   icon: privacy,
-  //   path: '/dashboard/vendor/wallet',
-  //   name: 'Privacy'
-  // }
 ])
 </script>
 

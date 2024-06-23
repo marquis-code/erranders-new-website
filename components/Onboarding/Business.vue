@@ -1,6 +1,5 @@
 <template>
     <form @submit.prevent="handleRegister">
-        {{ registerPayload }}
         <div class="flex justify-between items-start">
             <div>
                 <svg @click="router.back(-1)" class="cursor-pointer" width="68" height="24" viewBox="0 0 68 24" fill="none" xmlns="http://www.w3.org/2000/svg">
