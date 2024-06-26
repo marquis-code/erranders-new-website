@@ -207,7 +207,7 @@
 
 <script setup lang="ts">
 import dashboard from '@/assets/icons/dash-home.svg'
-import orders from '@/assets/icons/dash-orders.svg'
+import orders from '@/assets/icons/dash-o               rders.svg'
 import wallet from '@/assets/icons/dash-wallet.svg'
 import products from '@/assets/icons/dash-products.svg'
 import analytics from '@/assets/icons/dash-analytics.svg'

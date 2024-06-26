@@ -84,7 +84,7 @@
             <div>
                 <label for="businessAddress" class="block text-sm font-medium leading-6 text-[#0D0C22]">Business address</label>
                 <div class="mt-0.5">
-                    <input type="text" name="businessAddress" id="businessAddress"
+                    <input type="text" name="businessAddress" id="businessAddress" v-model="registerPayload.businessAddress"
                         class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
                         placeholder="Enter your business address">
                 </div>
@@ -92,7 +92,7 @@
 
             <div>
                 <label for="residentialAddress" class="block text-sm font-medium leading-6 text-[#0D0C22]">Location of residence</label>
-                <CoreAddressInput @address="handleUserAddress" />
+                <CoreAddressInput @coordinates="handleCoordinates" @address="handleUserAddress" />
             </div>
             <div class="w-full pt-6">
                 <button type="submit" :disabled="loading && !isSecondFormEmpty"
@@ -138,5 +138,10 @@ const handleValidCac = (data: any) => {
 
 const handleEmail = (email: string) => {
     registerPayload.value.businessEmail = email
+}
+
+const handleCoordinates = (coordinates: any) => {
+    console.log(coordinates, 'cords here')
+    registerPayload.value.coordinates = [coordinates.lat, coordinates.lng]
 }
 </script>

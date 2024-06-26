@@ -6,7 +6,7 @@ const runtimeData = {
   user: ref({} as any),
   token: ref(""),
 };
-const localstorageDate = {
+const localStorageData = {
   user: useStorage("user", {} as any),
   token: useStorage("token", ""),
 };
@@ -15,15 +15,15 @@ watch(
   runtimeData.user,
   (val) => {
     Object.keys(val).forEach((key) => {
-      localstorageDate.user.value[key] = val[key];
+      localStorageData.user.value[key] = val[key];
     });
   },
   { deep: true }
 );
 
 (() => {
-  runtimeData.user.value = localstorageDate.user.value;
-  runtimeData.token.value = localstorageDate.token.value;
+  runtimeData.user.value = localStorageData.user.value;
+  runtimeData.token.value = localStorageData.token.value;
 })();
 
 const loginPayload = ref({
@@ -40,14 +40,26 @@ export const useLogin = () => {
         password: loginPayload.value.password,
       };
       const response = await authApiFactory.login(payload);
+      console.log(response, 'response after login');
       runtimeData.user.value = response.data.user;
-      localstorageDate.token.value = response.data?.token;
+      localStorageData.token.value = response.data?.token;
       runtimeData.token.value = response.data?.token;
       useNuxtApp().$toast.success("Welcome back.", {
         autoClose: 5000,
         dangerouslyHTMLString: true,
       });
-      useRouter().push("/dashboard");
+
+      if(response.data.user.role === 'user'){
+        useRouter().push('/dashboard/customer');
+      }
+
+      if(response.data.user.role === 'vendor'){
+        useRouter().push('/dashboard/vendor');
+      }
+
+      if(response.data.user.role === 'errander'){
+        useRouter().push('/dashboard/errander');
+      }
       return response.data;
     } catch (error) {
       useNuxtApp().$toast.error("Something went wrong!", {
@@ -120,7 +132,7 @@ export const useLogin = () => {
 
   return {
     handleLogin,
-    localstorageDate,
+    localStorageData,
     loginPayload,
     loading,
     isFormEmpty,

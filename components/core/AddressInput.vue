@@ -26,7 +26,7 @@
   <script lang="ts" setup>
   import { ref } from 'vue';
   import { useAddressAutoComplete } from '@/composables/core/useAddressAutoComplete';
-  const emit = defineEmits(['address'])
+  const emit = defineEmits(['address', 'coordinates'])
   const address = ref('');
   const {
     searchResults,
@@ -41,8 +41,10 @@
   };
   
   const selectAddress = (result: any) => {
+    console.log(result, 'result here')
     address.value = result.formatted;
     emit('address', address.value)
+    emit('coordinates', { lat: result.lat, lng: result.lon})
     showDropdown.value = false;
   };
   </script>
