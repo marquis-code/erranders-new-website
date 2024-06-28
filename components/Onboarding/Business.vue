@@ -19,11 +19,11 @@
                 </h1>
             </div>
         </div>
-        <div>
-            <h1 class="text-3xl lg:text-3xl font-semibold max-w-sm text-gray-800">{{activeStep === 'business-info' ? `Register business 
+        <div class="mt-5">
+            <h1 class="text-2xl lg:text-3xl font-semibold max-w-sm text-gray-800">{{activeStep === 'business-info' ? `Register business 
                 account` : `Complete your
                 profile`}}</h1>
-            <p class="font-light leading-loose max-w-lg">For the purpose of industry regulation, your details are
+            <p class="font-light leading-snug max-w-lg">For the purpose of industry regulation, your details are
                 required.</p>
         </div>
         <div v-if="activeStep === 'business-info'" class="space-y-6 pt-6">

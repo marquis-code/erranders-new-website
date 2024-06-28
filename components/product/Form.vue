@@ -1,6 +1,5 @@
 <template>
     <main>
-      <!-- Product List View -->
       <div v-if="defaultView === 'list'">
         <div class="sm:flex sm:items-center">
           <div class="sm:flex-auto">
@@ -11,7 +10,7 @@
             <button type="button" @click="showSlideOver = true" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add products</button>
           </div>
         </div>
-        <div class="mt-8 flow-root">
+        <div v-if="!loading && products.length" class="mt-8 flow-root">
           <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
               <table class="min-w-full divide-y divide-gray-300">
@@ -20,16 +19,32 @@
                     <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Name</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Description</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Price</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">In Stock</th>
                     <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Created At</th>
                     <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">Actions</th>
                   </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 bg-white">
                   <tr v-for="product in products" :key="product.id">
-                    <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">{{ product.name }}</td>
-                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ product.description }}</td>
-                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ product.price }}</td>
-                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ product.category }}</td>
+                    <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                      <div class="flex items-center">
+                        <div class="h-11 w-11 flex-shrink-0">
+                          <img class="h-11 w-11 rounded-full" :src="product.image" alt="">
+                        </div>
+                        <div class="ml-4">
+                          <div class="font-medium text-gray-900">{{product.name || 'Nil'}}</div>
+                          <div class="mt-1 text-gray-500">lindsay.walton@example.com</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ product.description.slice(0, 20) + '...' || 'Nil' }}</td>
+                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ product.price || 'Nil' }}</td>
+                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ product.currentInStock || 'Nil' }}</td>
+                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ product.category || 'Nil' }}</td>
+                    <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                      {{ moment.utc(product.createdAt).format('MMMM Do YYYY') || 'Nil' }}
+                    </td>
                     <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
                       <div class="flex items-center justify-center gap-x-4">
                         <a @click.prevent="handleEditProduct(product)" href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
@@ -42,6 +57,15 @@
             </div>
           </div>
         </div>
+        <div v-else-if="loading && !products.length" class="h-30 bg-slate-100 rounded w-full mt-6"></div>
+        <div class="text-center border rounded-xl py-6 mt-6" v-else>
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          </svg>
+          <h3 class="mt-2 text-sm font-semibold text-gray-900">No products available</h3>
+          <p class="mt-1 text-sm text-gray-500">Get started by creating a new project.</p>
+        </div>
+        
       </div>
   
       <!-- Product Form (Slide Over) -->
@@ -108,7 +132,7 @@
             </div>
           </div>
           <div class="w-full">
-            <button @click="submitForm" type="button" class="rounded-md w-full bg-indigo-600 px-3.5 py-2.5 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <button :disabled="selectedProduct ? false : creatingProducts" @click="submitForm" type="button" class="rounded-md disabled:cursor-not-allowed disabled:opacity-25 w-full bg-indigo-600 px-3.5 py-2.5 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               {{ selectedProduct ? 'Update' : 'Submit' }}
             </button>
           </div>
@@ -119,24 +143,18 @@
   
   <script setup lang="ts">
   import { ref } from 'vue';
-  import { useProductManagement } from '@/composables/products/useProductManagement';
+  import moment from 'moment'
+  import { useFetchProductsList } from '@/composables/products/fetch'
+  import { useCreateProduct } from '@/composables/products/create'
+  const { fetchProducts, products, loading } = useFetchProductsList()
+  const { createProduct, resetForm, form, loading: creatingProducts, errors, selectedProduct, showDropdown, foodCategories } = useCreateProduct()
+
+  // import { useProductManagement } from '@/composables/products/useProductManagement';
   
   const defaultView = ref('list');
   const showSlideOver = ref(false);
   const showConfirmProductDeleteModal = ref(false);
-  
-  const {
-    foodCategories,
-    products,
-    form,
-    errors,
-    selectedProduct,
-    createProduct,
-    editProduct,
-    updateProduct,
-    deleteProduct,
-    resetForm,
-  } = useProductManagement();
+  fetchProducts()
   
   const closeSlideOver = () => {
     showSlideOver.value = false;
@@ -161,10 +179,12 @@
     const target = event.target as HTMLInputElement;
     if (target.files && target.files[0]) {
       const reader = new FileReader();
-      reader.onload = (e) => {
+      reader.onload = (e: any) => {
+        console.log(e.target.result, 'reader resuult')
         form.value.imageUrl = e.target.result as string;
       };
       reader.readAsDataURL(target.files[0]);
+      console.log(target.files[0], 'readerdsfsdfdsfdsf resuult')
       form.value.image = target.files[0];
     }
   };

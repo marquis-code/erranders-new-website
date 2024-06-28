@@ -27,7 +27,7 @@
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <div class="flex items-center  gap-x-4">
-                        <NuxtLink to="/register" href="#" class="text-sm font-semibold leading-6 text-gray-900">Log
+                        <NuxtLink to="/login" href="#" class="text-sm font-semibold leading-6 text-gray-900">Log
                             in <span aria-hidden="true"></span></NuxtLink>
                         <NuxtLink to="/register"
                             class="text-sm font-medium leading-6 text-white bg-[#011633] px-6 rounded-full py-2">
@@ -85,7 +85,7 @@
                         <!-- Sidebar component, swap this element with another sidebar if you like -->
                         <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
                             <div class="flex h-16 shrink-0 items-center">
-                                <img class="h-8 w-auto" src="@/assets/icons/logo.svg" alt="Your Company">
+                                <NuxtLink to="/"><img class="h-5 w-auto" src="@/assets/icons/logo.svg" alt="Your Company"></NuxtLink>
                             </div>
                             <nav class="flex flex-1 flex-col">
                                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -101,7 +101,7 @@
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                                                     </svg>
-                                                    Productsss
+                                                    Product
                                                 </a>
                                             </li>
                                             <li>
@@ -142,7 +142,8 @@
                                             </li>
                                             <li>
                                                 <NuxtLink to="/login"
-                                                    class="text-center bg-green-500 text-white 0 group flex gap-x-3 rounded-md p-2 py-2.5 text-sm leading-6 font-semibold">
+                                                    class="text-center pl-4 bg-green-500 text-white 0 group flex gap-x-3 rounded-md p-2 py-2.5 text-sm leading-6 font-semibold">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#1C274C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M13.8 12H3"/></svg>
                                                     Login
                                                 </NuxtLink>
                                             </li>
