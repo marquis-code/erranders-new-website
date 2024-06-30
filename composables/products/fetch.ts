@@ -8,7 +8,7 @@ export const useFetchProductsList = () => {
         loading.value = true;
         try {
           const response = await productApiFactory.fetchProducts(user.value._id);
-          products.value = response.data.products || []
+          products.value = response.data || []
           return response;
         } catch (error) {
             useNuxtApp().$toast.error("Something went wrong!", {

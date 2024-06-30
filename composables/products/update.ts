@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import { productApiFactory } from "@/apiFactory/product";
 export const useUpdateProduct = () => {
   const selectedProduct = ref(null);
+  const selectedProductId = ref('') as Record<string, any>;
   const showDropdown = ref(false);
   const loading = ref(false) as any;
 
@@ -17,7 +18,7 @@ export const useUpdateProduct = () => {
     name: "",
     description: "",
     price: "",
-    estimatedPrice: "",
+    currentInStock: "",
     category: "",
     image: null,
     imageUrl: "",
@@ -27,7 +28,7 @@ export const useUpdateProduct = () => {
     name: "",
     description: "",
     price: "",
-    estimatedPrice: "",
+    currentInStock: "",
     category: "",
   });
 
@@ -40,8 +41,8 @@ export const useUpdateProduct = () => {
       form.value.price && !isNaN(Number(form.value.price))
         ? ""
         : "Valid product price is required";
-    errors.value.estimatedPrice =
-      form.value.estimatedPrice && !isNaN(Number(form.value.estimatedPrice))
+    errors.value.currentInStock =
+      form.value.currentInStock && !isNaN(Number(form.value.currentInStock))
         ? ""
         : "Valid estimated price is required";
     errors.value.category = form.value.category
@@ -52,7 +53,7 @@ export const useUpdateProduct = () => {
       !errors.value.name &&
       !errors.value.description &&
       !errors.value.price &&
-      !errors.value.estimatedPrice &&
+      !errors.value.currentInStock &&
       !errors.value.category
     );
   };
@@ -62,7 +63,7 @@ export const useUpdateProduct = () => {
       name: "",
       description: "",
       price: "",
-      estimatedPrice: "",
+      currentInStock: "",
       category: "",
       image: null,
       imageUrl: "",
@@ -71,18 +72,18 @@ export const useUpdateProduct = () => {
       name: "",
       description: "",
       price: "",
-      estimatedPrice: "",
+      currentInStock: "",
       category: "",
     };
   };
 
-  const createProduct = async () => {
+  const updateProduct = async () => {
     if (!validateForm()) return;
     try {
       loading.value = true;
-      const response = await productApiFactory.createProduct(form.value);
+      const response = await productApiFactory.updateProduct(form.value, selectedProductId.value);
       resetForm();
-      useNuxtApp().$toast.success("Product was created successfully..", {
+      useNuxtApp().$toast.success("Product was  successfully..", {
         autoClose: 5000,
         dangerouslyHTMLString: true,
       });
@@ -97,12 +98,13 @@ export const useUpdateProduct = () => {
     }
   };
 
-  const editProduct = (product: any) => {
+  const setEditProduct = (product: any) => {
     selectedProduct.value = product;
+    selectedProductId.value = product._id
     form.value = { ...product, imageUrl: product.image || '' };
     showDropdown.value = true;
   };
 
-  return { createProduct, resetForm, form, loading,   errors,
-    showDropdown, foodCategories, editProduct };
+  return { updateProduct, resetForm, form, loading,   errors,
+    showDropdown, foodCategories, setEditProduct };
 };

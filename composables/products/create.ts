@@ -23,7 +23,7 @@ export const useCreateProduct = () => {
     name: "",
     description: "",
     price: "",
-    estimatedPrice: "",
+    currentInStock: "",
     category: "",
     image: null,
     imageUrl: "",
@@ -33,7 +33,7 @@ export const useCreateProduct = () => {
     name: "",
     description: "",
     price: "",
-    estimatedPrice: "",
+    currentInStock: "",
     category: "",
   }) as Record<string, any>
 
@@ -46,8 +46,8 @@ export const useCreateProduct = () => {
       form.value.price && !isNaN(Number(form.value.price))
         ? ""
         : "Valid product price is required";
-    errors.value.estimatedPrice =
-      form.value.estimatedPrice && !isNaN(Number(form.value.estimatedPrice))
+    errors.value.currentInStock =
+      form.value.currentInStock && !isNaN(Number(form.value.currentInStock))
         ? ""
         : "Valid estimated price is required";
     errors.value.category = form.value.category
@@ -58,7 +58,7 @@ export const useCreateProduct = () => {
       !errors.value.name &&
       !errors.value.description &&
       !errors.value.price &&
-      !errors.value.estimatedPrice &&
+      !errors.value.currentInStock &&
       !errors.value.category
     );
   };
@@ -68,7 +68,7 @@ export const useCreateProduct = () => {
       name: "",
       description: "",
       price: "",
-      estimatedPrice: "",
+      currentInStock: "",
       category: "",
       image: null,
       imageUrl: "",
@@ -77,7 +77,7 @@ export const useCreateProduct = () => {
       name: "",
       description: "",
       price: "",
-      estimatedPrice: "",
+      currentInStock: "",
       category: "",
     };
   };
@@ -90,7 +90,7 @@ export const useCreateProduct = () => {
       formData.append("name", form.value.name);
       formData.append("description", form.value.description);
       formData.append("price", form.value.price);
-      formData.append("currentInStock", form.value.estimatedPrice);
+      formData.append("currentInStock", form.value.currentInStock);
       formData.append("category", form.value.category);
       if (form.value.image) {
         formData.append("file", form.value.image);
