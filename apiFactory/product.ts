@@ -15,4 +15,7 @@ export const productApiFactory = {
   deleteProduct(id: string | number) {
     return axiosInstance.delete(`/products/${id}`);
   },
+  fetchCarouselProducts() {
+    return axiosInstance.get('/products');
+  },
 };

@@ -1,19 +1,51 @@
 import Swal from "sweetalert2";
 import { productApiFactory } from "@/apiFactory/product";
+import { ref } from 'vue';
+import { useNuxtApp } from '#app';
+import { useLogin } from '@/composables/auth/login'
+import { useFetchProductsList } from '@/composables/products/fetch'
+
 export const useUpdateProduct = () => {
   const selectedProduct = ref(null);
-  const selectedProductId = ref('') as Record<string, any>;
+  const selectedProductId = ref('') as any;
   const showDropdown = ref(false);
-  const loading = ref(false) as any;
+  const loading = ref(false);
+  const { fetchProducts } = useFetchProductsList()
+  // const { user } = useLogin()
 
   const foodCategories = ref([
-    'Vegetables',
-    'Fruits',
-    'Grains',
-    'Proteins',
-    'Dairy',
+    "desktops",
+    "computer accessories",
+    "laptops",
+    "laptop parts",
+    "cctv",
+    "printers and scanners",
+    "networking and wifi",
+    "gaming",
+    "snacks",
+    "groceries",
+    "storage and memory",
+    "smartphones",
+    "tablets",
+    "smartwatches",
+    "home appliances",
+    "kitchen appliances",
+    "personal care",
+    "beauty products",
+    "clothing",
+    "shoes",
+    "books",
+    "toys",
+    "sports equipment",
+    "office supplies",
+    "pet supplies",
+    "automotive parts",
+    "musical instruments",
+    "furniture",
+    "garden tools",
+    "health and wellness",
   ]);
-  
+
   const form = ref({
     name: "",
     description: "",
@@ -83,10 +115,12 @@ export const useUpdateProduct = () => {
       loading.value = true;
       const response = await productApiFactory.updateProduct(form.value, selectedProductId.value);
       resetForm();
-      useNuxtApp().$toast.success("Product was  successfully..", {
+      useNuxtApp().$toast.success("Product was successfully updated.", {
         autoClose: 5000,
         dangerouslyHTMLString: true,
       });
+      // Fetch updated product list
+      await fetchProducts(); // Add this line to refresh the product list
       return response;
     } catch (error) {
       useNuxtApp().$toast.error("Something went wrong!", {
@@ -100,11 +134,19 @@ export const useUpdateProduct = () => {
 
   const setEditProduct = (product: any) => {
     selectedProduct.value = product;
-    selectedProductId.value = product._id
+    selectedProductId.value = product._id;
     form.value = { ...product, imageUrl: product.image || '' };
     showDropdown.value = true;
   };
-
-  return { updateProduct, resetForm, form, loading,   errors,
-    showDropdown, foodCategories, setEditProduct };
+  
+  return {
+    updateProduct,
+    resetForm,
+    form,
+    loading,
+    errors,
+    showDropdown,
+    foodCategories,
+    setEditProduct,
+  };
 };

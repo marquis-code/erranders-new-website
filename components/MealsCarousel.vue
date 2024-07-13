@@ -11,29 +11,27 @@
             within CMUL (College Of Medicine, Idi-araba).
           </p>
         </div>
-        <div class="carousel-container overflow-hidden relative">
+        <!-- <div v-if="!loading && products.length" class="carousel-container overflow-hidden relative">
           <div class="carousel-track flex gap-x-5" :style="{ transform: `translateX(-${offset}px)` }">
             <div class="image-item rounded-b-lg flex-none w-full relative bg-[#E7FAEF] p-6 pb-44 rounded-lg"
-              v-for="(image, index) in allImages" :key="index" @click="handleItemClick(image)">
-              <img :src="image.imgUrl" class="h-full w-full object-cover rounded-xl object-center" alt="">
+              v-for="(product, index) in allProducts" :key="index" @click="handleItemClick(product)">
+              <img :src="product.image" class="h-full w-full object-cover rounded-xl object-center" alt="">
               <div class="w-64 -mt-2 overflow-hidden md:w-64 absolute bottom-4 pb-10 ">
                 <h3 class="py-2.5 font-medium pb-10 tracking-wide text-center text-base text-white">
-                  {{ image.name }}
+                  {{ product.name }}
                 </h3>
                 <div>
                   <div class="flex justify-between">
                     <div class="space-y-2.5">
-                      <h1 class="text-[#011633] font-bold text-lg">₦ {{ image.price }}</h1>
+                      <h1 class="text-[#011633] font-bold text-lg">₦ {{ product.price }}</h1>
                       <div class="space-y-1">
                         <img src="@/assets/icons/rating-stars.svg" alt="rating" />
-                        <!-- <p class="font-light text-sm"><span class="text-[#000000] font-semibold text-xs">2.5k</span>
-                          Students</p> -->
-                        <p class="font-semibold text-sm">{{ image.vendor }}</p>
+                        <p class="font-semibold text-sm">{{ product?.createdBy?.businessName || 'Nil' }}</p>
                       </div>
                     </div>
                     <div class="w-full">
                       <div class="w-full  flex justify-end items-end">
-                        <button v-if="image.productType === 'instant'"
+                        <button
                           class="px-4 py-2.5 bg-[#0BCA63] text-white font-semibold rounded-full text-xs flex items-center gap-x-2">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none"
                             stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -44,7 +42,7 @@
                           Add to cart</button>
                       </div>
                       <div class="w-full  flex justify-end items-end">
-                        <button v-if="image.productType === 'pre-order'"
+                        <button v-if="product.productType === 'pre-order'"
                           class="px-4 py-2.5 bg-[#0BCA63] text-white font-semibold rounded-full text-xs flex items-center gap-x-2">
                           <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none"
                             stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -60,6 +58,44 @@
               </div>
             </div>
           </div>
+        </div> -->
+
+        <div v-if="!loading && products.length"
+          class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 carousel-container overflow-hidden relative">
+          <div class="carousel-track flex gap-x-5" :style="{ transform: `translateX(-${offset}px)` }">
+            <div v-for="(product, index) in allProducts" :key="index" @click="handleItemClick(product)">
+              <div class="relative">
+                <div class="relative h-72 w-full overflow-hidden rounded-lg">
+                  <img :src="product.image"
+                    alt="Front of zip tote bag with white canvas, black canvas straps and handle, and black zipper pulls."
+                    class="h-full w-full object-cover object-center">
+                </div>
+                <div class="relative mt-4">
+                  <h3 class="text-sm font-medium text-gray-900">{{ product.name }}</h3>
+                  <p class="mt-1 text-sm text-gray-500">{{ product?.createdBy?.businessName || 'Nil' }}</p>
+                </div>
+                <div class="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
+                  <div aria-hidden="true"
+                    class="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"></div>
+                  <p class="relative text-lg font-semibold text-white">₦ {{ product.price }}</p>
+                </div>
+              </div>
+              <div class="mt-6">
+                <a href.prevent="#" @click="handleItemClick(product)" v-if="product.productType !== 'pre-order'"
+                  class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                  to bag<span class="sr-only">, {{ product.name }}</span></a>
+                  <a href.prevent="#" @click="handleItemClick(product)" v-else
+                  class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Pre Order
+                  <span class="sr-only">, {{ product.name }}</span></a>
+              </div>
+            </div>
+          </div>
+
+          <!-- More products... -->
+        </div>
+
+        <div v-else-if="loading && !products.length" class="grid grid-cols-4 gap-6">
+          <div v-for="item in 4" :key="item" class="h-60 bg-slate-400 rounded animate-pulse"></div>
         </div>
       </section>
     </section>
@@ -68,110 +104,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useFetchProductsList } from '@/composables/products/carouselProducts'
 import { useRouter } from 'vue-router'
-import meal1 from '@/assets/img/meal1.png'
-import meal2 from '@/assets/img/meal2.png'
-import meal3 from '@/assets/img/meal3.png'
-// import meal4 from '@/assets/img/bananabread.jpg'
-import meal5 from '@/assets/img/bread2.jpg'
+const { fetchProducts, products, loading } = useFetchProductsList()
 const selectedProduct = ref({}) as any
 const showPreview = ref(false)
-const images = ref([
-  {
-    imgUrl: meal1,
-    name: 'Jellof rice and meat',
-    description: 'This easy banana bread recipe creates a perfect snack or dessert if you love the taste of ripe bananas & the “crunch” of delicious almonds.',
-    rating: 3,
-    testimonials: [
-      {
-        name: 'Hector Gibbons',
-        message: `Blown away by how polished this icon pack is. Everything looks so consistent and each SVG is optimized out of the box so I can use it directly with confidence. It would take me several hours to create a single icon this good, so it's a steal at this price.`,
-        rating: 4,
-        date: 'July 12, 2021',
-        avatar: meal1
-      }
-    ],
-    sizeList: ['S', 'MD', 'L', 'XL', 'XXL'],
-    stock: 30,
-    price: "5000",
-    productType: 'instant',
-    vendor: 'Mavise'
-  },
-  {
-    imgUrl: meal2,
-    name: 'Burger sauce',
-    description: 'This easy banana bread recipe creates a perfect snack or dessert if you love the taste of ripe bananas & the “crunch” of delicious almonds.',
-    rating: 3,
-    testimonials: [
-      {
-        name: 'Hector Gibbons',
-        message: `Blown away by how polished this icon pack is. Everything looks so consistent and each SVG is optimized out of the box so I can use it directly with confidence. It would take me several hours to create a single icon this good, so it's a steal at this price.`,
-        rating: 4,
-        date: 'July 12, 2021',
-        avatar: meal1
-      }
-    ],
-    sizeList: ['S', 'MD', 'L', 'XL', 'XXL'],
-    stock: 30,
-    price: '3000',
-    productType: 'instant',
-    vendor: 'Iya Itunu'
-  },
-  {
-    imgUrl: meal3,
-    name: 'Chicken Suya',
-    description: 'This easy banana bread recipe creates a perfect snack or dessert if you love the taste of ripe bananas & the “crunch” of delicious almonds.',
-    rating: 3,
-    testimonials: [
-      {
-        name: 'Hector Gibbons',
-        message: `Blown away by how polished this icon pack is. Everything looks so consistent and each SVG is optimized out of the box so I can use it directly with confidence. It would take me several hours to create a single icon this good, so it's a steal at this price.`,
-        rating: 4,
-        date: 'July 12, 2021',
-        avatar: meal1
-      }
-    ],
-    sizeList: ['S', 'MD', 'L', 'XL', 'XXL'],
-    stock: 30,
-    price: '2000',
-    productType: 'instant',
-    vendor: 'Chijoke'
-  },
-  {
-    imgUrl: meal5,
-    name: 'Almond Banana Bread',
-    description: 'This easy banana bread recipe creates a perfect snack or dessert if you love the taste of ripe bananas & the “crunch” of delicious almonds.',
-    rating: 5,
-    testimonials: [
-      {
-        name: 'Hector Gibbons',
-        message: `Blown away by how polished this icon pack is. Everything looks so consistent and each SVG is optimized out of the box so I can use it directly with confidence. It would take me several hours to create a single icon this good, so it's a steal at this price.`,
-        rating: 4,
-        date: 'July 12, 2021',
-        avatar: meal1
-      }
-    ],
-    sizeList: ['S', 'MD', 'L', 'XL', 'XXL'],
-    stock: 30,
-    price: '2000',
-    productType: 'pre-order',
-    vendor: 'Budville'
-  }
-])
+fetchProducts()
 
 const offset = ref(0)
 const itemWidth = ref(300)
 const scrollSpeed = ref(1)
 const interval = ref(null) as any
 
-const allImages = computed(() => {
-  return [...images.value, ...images.value]
+const allProducts = computed(() => {
+  return [...products.value, ...products.value]
 })
 
 const startScrolling = () => {
   interval.value = window.setInterval(() => {
-    if (offset.value >= itemWidth.value * images.value.length) {
+    if (offset.value >= itemWidth.value * products.value.length) {
       offset.value = 0; // Reset to start when end is reached
     } else {
       offset.value += scrollSpeed.value;
@@ -200,7 +151,7 @@ const handleItemClick = (item: any) => {
 <style scoped>
 .carousel-container {
   width: 100%;
-  height: 400px;
+  height: 600px;
   /* Adjust as needed */
 }
 

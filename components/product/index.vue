@@ -227,7 +227,7 @@ const { updateProduct, setEditProduct, loading: updating } = useUpdateProduct();
     const target = event.target as HTMLInputElement;
     if (target.files && target.files[0]) {
       const reader = new FileReader();
-      // form.value.image = target.files[0];
+      form.value.file = target.files[0];
       form.value.image = URL.createObjectURL(target.files[0]);
       reader.onload = (e: any) => {
         console.log(e.target.result, 'reader resuult')

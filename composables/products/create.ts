@@ -16,7 +16,26 @@ export const useCreateProduct = () => {
     "gaming",
     "snacks",
     "groceries",
-    "storage and memory"
+    "storage and memory",
+    "smartphones",
+    "tablets",
+    "smartwatches",
+    "home appliances",
+    "kitchen appliances",
+    "personal care",
+    "beauty products",
+    "clothing",
+    "shoes",
+    "books",
+    "toys",
+    "sports equipment",
+    "office supplies",
+    "pet supplies",
+    "automotive parts",
+    "musical instruments",
+    "furniture",
+    "garden tools",
+    "health and wellness",
   ]) as Record<string, any>
   
   const form = ref({
@@ -27,6 +46,7 @@ export const useCreateProduct = () => {
     category: "",
     image: null,
     imageUrl: "",
+    file: ''
   }) as Record<string, any>
 
   const errors = ref({
@@ -72,6 +92,7 @@ export const useCreateProduct = () => {
       category: "",
       image: null,
       imageUrl: "",
+      file: ''
     };
     errors.value = {
       name: "",
@@ -93,17 +114,20 @@ export const useCreateProduct = () => {
       formData.append("currentInStock", form.value.currentInStock);
       formData.append("category", form.value.category);
       if (form.value.image) {
-        formData.append("file", form.value.image);
+        formData.append("file", form.value.file);
       }
 
       const response = await productApiFactory.createProduct(formData);
-      resetForm();
-      useNuxtApp().$toast.success("Product was created successfully.", {
-        autoClose: 5000,
-        dangerouslyHTMLString: true,
-      });
-      console.log(response, 'res here');
-      return response;
+      if(typeof response !== 'undefined'){
+        console.log(response, 'res here')
+        resetForm();
+        useNuxtApp().$toast.success("Product was created successfully.", {
+          autoClose: 5000,
+          dangerouslyHTMLString: true,
+        });
+        console.log(response, 'res here');
+        return response;
+      }
     } catch (error) {
       console.log(error, 'err here');
       useNuxtApp().$toast.error("Something went wrong!", {
