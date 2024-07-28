@@ -1,7 +1,7 @@
 import { axiosInstance } from './axios.config'
 export const orderApiFactory = {
-  fetchOrders() {
-    return axiosInstance.get('/orders');
+  fetchOrders(id: number | string) {
+    return axiosInstance.get(`/orders/vendor`);
   },
   createOrder(payload: any) {
     return axiosInstance.post(`/orders`, payload);

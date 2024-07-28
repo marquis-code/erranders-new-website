@@ -1,5 +1,7 @@
 import Swal from "sweetalert2";
+import { useFetchProductsList } from '@/composables/products/fetch';
 import { productApiFactory } from "@/apiFactory/product";
+const { fetchProducts } = useFetchProductsList();
 export const useDeleteProduct = () => {
     const loading = ref(false)
     const deleteProduct = (productId) => {
@@ -16,6 +18,7 @@ export const useDeleteProduct = () => {
                 loading.value = true;
                 const response = await productApiFactory.deleteProduct(productId)
                 Swal.fire("Deleted!", "Product has been deleted.", "success");
+                fetchProducts(); // Refresh the products list
                 return response;
               } catch (error) {
                 useNuxtApp().$toast.error("Something went wrong!", {

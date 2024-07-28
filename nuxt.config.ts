@@ -140,6 +140,10 @@ export default {
   tailwindcss: {
     cssPath: "@/assets/css/main.css",
   },
+  server: {
+    host: '0.0.0.0', // Default: 'localhost'
+    port: 4000       // Default: 3000
+  },
   axios: {
     // Axios options here
     timeout: 10000, // Example: set timeout to 10 seconds

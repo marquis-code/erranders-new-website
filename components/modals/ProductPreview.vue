@@ -21,21 +21,20 @@
                             class="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
                             <div class="sm:col-span-4 lg:col-span-5">
                                 <div class="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg bg-gray-100">
-                                    <img :src="product.imgUrl"
+                                    <img :src="product.image"
                                         alt="Back angled view with bag open and handles to the side."
                                         class="object-cover object-center">
                                 </div>
                             </div>
                             <div class="sm:col-span-8 lg:col-span-7">
                                 <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">{{ product.name }}</h2>
-
                                 <section aria-labelledby="information-heading" class="mt-3">
                                     <h3 id="information-heading" class="sr-only">Product information</h3>
 
                                     <p class="text-2xl text-gray-900">₦ {{ product.price }}</p>
                                     <p class="mt-2">
                                         <span class="text-xs rounded-full bg-green-500 px-6 py-1.5 text-white">{{
-        product.stock }} units available in stock</span>
+        product.currentInStock }} units available in stock</span>
                                     </p>
                                     <div class="mt-3">
                                         <h4 class="sr-only">Reviews</h4>

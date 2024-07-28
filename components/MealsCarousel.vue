@@ -11,54 +11,6 @@
             within CMUL (College Of Medicine, Idi-araba).
           </p>
         </div>
-        <!-- <div v-if="!loading && products.length" class="carousel-container overflow-hidden relative">
-          <div class="carousel-track flex gap-x-5" :style="{ transform: `translateX(-${offset}px)` }">
-            <div class="image-item rounded-b-lg flex-none w-full relative bg-[#E7FAEF] p-6 pb-44 rounded-lg"
-              v-for="(product, index) in allProducts" :key="index" @click="handleItemClick(product)">
-              <img :src="product.image" class="h-full w-full object-cover rounded-xl object-center" alt="">
-              <div class="w-64 -mt-2 overflow-hidden md:w-64 absolute bottom-4 pb-10 ">
-                <h3 class="py-2.5 font-medium pb-10 tracking-wide text-center text-base text-white">
-                  {{ product.name }}
-                </h3>
-                <div>
-                  <div class="flex justify-between">
-                    <div class="space-y-2.5">
-                      <h1 class="text-[#011633] font-bold text-lg">₦ {{ product.price }}</h1>
-                      <div class="space-y-1">
-                        <img src="@/assets/icons/rating-stars.svg" alt="rating" />
-                        <p class="font-semibold text-sm">{{ product?.createdBy?.businessName || 'Nil' }}</p>
-                      </div>
-                    </div>
-                    <div class="w-full">
-                      <div class="w-full  flex justify-end items-end">
-                        <button
-                          class="px-4 py-2.5 bg-[#0BCA63] text-white font-semibold rounded-full text-xs flex items-center gap-x-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none"
-                            stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="10" cy="20.5" r="1" />
-                            <circle cx="18" cy="20.5" r="1" />
-                            <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1" />
-                          </svg>
-                          Add to cart</button>
-                      </div>
-                      <div class="w-full  flex justify-end items-end">
-                        <button v-if="product.productType === 'pre-order'"
-                          class="px-4 py-2.5 bg-[#0BCA63] text-white font-semibold rounded-full text-xs flex items-center gap-x-2">
-                          <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none"
-                            stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="10" cy="20.5" r="1" />
-                            <circle cx="18" cy="20.5" r="1" />
-                            <path d="M2.5 2.5h3l2.7 12.4a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.6l1.6-8.4H7.1" />
-                          </svg>
-                          Pre-Order</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
 
         <div v-if="!loading && products.length"
           class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8 carousel-container overflow-hidden relative">
@@ -82,16 +34,14 @@
               </div>
               <div class="mt-6">
                 <a href.prevent="#" @click="handleItemClick(product)" v-if="product.productType !== 'pre-order'"
-                  class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
+                  class="relative flex items-center justify-center cursor-pointer rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Add
                   to bag<span class="sr-only">, {{ product.name }}</span></a>
                   <a href.prevent="#" @click="handleItemClick(product)" v-else
-                  class="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Pre Order
+                  class="relative flex items-center justify-center cursor-pointer rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200">Pre Order
                   <span class="sr-only">, {{ product.name }}</span></a>
               </div>
             </div>
           </div>
-
-          <!-- More products... -->
         </div>
 
         <div v-else-if="loading && !products.length" class="grid grid-cols-4 gap-6">
