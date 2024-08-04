@@ -1,5 +1,5 @@
 <template>
-<main>
+<main class="sticky top-0">
     <div class="bg-indigo-600 px-4 py-3 text-white">
         <p class="text-center text-sm font-medium">
             NOTE: Delivery: Next Day | Minimum Order Value: N25,000.00 | Minimum Qty: 5L /Paint Dismiss

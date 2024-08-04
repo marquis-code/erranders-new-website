@@ -213,6 +213,7 @@ const { handlePayment, paymentForm } = useFlutterwaveSDK();
 
 const router = useRouter();
 const route = useRoute();
+const checkoutObj = ref({}) as any
 
 const paymentOptions = [
   { id: "cash", name: "Pay with cash", icon: cashPayment },
@@ -222,15 +223,15 @@ const paymentOptions = [
 const processingPayment = ref(false);
 const selectedOption = ref<string>(paymentOptions[0].id);
 
-const setOrderData = async (data: any) => {
+const setOrderData = async () => {
   try {
     const coordinates = await fetchCurrentLocation();
     setOrderObj({
-      ...data,
+      ...checkoutObj.value,
       cartList: cartList.value,
       userId: user.value._id,
       location: { type: "Point", coordinates },
-      totalPrice: totalPrice.value,
+      totalPrice: totalPrice.value + checkoutObj.value.totalPrice,
     });
   } catch (error) {
     console.error("Failed to set order data:", error);
@@ -243,7 +244,7 @@ const payNow = async () => {
     await setOrderData();
 
     // Set the amount for the payment form
-    paymentForm.value.amount = totalPrice.value;
+    paymentForm.value.amount = totalPrice.value + checkoutObj.value.totalPrice,
 
     // Handle the payment process
     await handlePayment();
@@ -287,90 +288,7 @@ const submitPaymentOption = () => {
 };
 
 const handleCheckout = (data: any) => {
-  setOrderData(data)
+  checkoutObj.value = data
+  payNow()
 }
 </script>
-
-
-<!-- <script setup lang="ts">
-import { useCreateOrder } from "@/composables/order/create";
-import { useFlutterwaveSDK } from "@/composables/payment/flutterwave";
-import { useCurrency } from "@/composables/core/useCurrency";
-import { useCreateCart } from "@/composables/cart/create";
-import cashPayment from "@/assets/icons/cash.svg";
-import transferPayment from "@/assets/icons/transfer.svg";
-import { useRouter, useRoute } from "vue-router";
-
-const { createOrder, setOrderObj, setCurrentLocation } = useCreateOrder();
-const { cartList, totalPrice, isCartOpen, closeCart, removeItem } = useCreateCart();
-const { formatToNaira } = useCurrency();
-const { handlePayment, paymentForm } = useFlutterwaveSDK();
-
-const router = useRouter();
-const route = useRoute();
-
-const paymentOptions = [
-  { id: "cash", name: "Pay with cash", icon: cashPayment },
-  { id: "transfer", name: "Pay with Transfer", icon: transferPayment },
-];
-
-const processingPayment = ref(false);
-const selectedOption = ref<string>(paymentOptions[0].id);
-
-const setOrderData = async () => {
-  try {
-    const coordinates = await setCurrentLocation();
-    setOrderObj({
-      cartList: cartList.value,
-      userId: "user123",
-      location: { type: "Point", coordinates },
-      totalPrice: totalPrice.value,
-    });
-  } catch (error) {
-    console.error("Failed to set order data:", error);
-  }
-};
-
-const payNow = async () => {
-  try {
-    processingPayment.value = true;
-    await setOrderData();
-
-    // Set the amount for the payment form
-    paymentForm.value.amount = totalPrice.value;
-
-    // Handle the payment process
-    await handlePayment();
-
-    // Create the order after successful payment
-    await createOrder();
-
-    useNuxtApp().$toast.success("Order was created successfully.", {
-      autoClose: 5000,
-      dangerouslyHTMLString: true,
-    });
-
-    // Optionally redirect to another page or perform any other actions
-    // router.push({ name: 'OrderSuccessPage' });
-
-  } catch (error) {
-    console.error("Payment or Order creation failed:", error);
-    useNuxtApp().$toast.error("Something went wrong!", {
-      autoClose: 5000,
-      dangerouslyHTMLString: true,
-    });
-  } finally {
-    processingPayment.value = false;
-  }
-};
-
-const submitPaymentOption = () => {
-  if (selectedOption.value === "transfer") {
-    payNow();
-  } else {
-    // Handle other payment options if needed
-  }
-};
-
-</script> -->
-~/composables/order/fetch

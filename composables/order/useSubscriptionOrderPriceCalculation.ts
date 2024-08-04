@@ -1,9 +1,11 @@
 import { ref, watch, computed } from 'vue';
+import { useCreateCart } from "@/composables/cart/create";
 
 export function useOrderPriceCalculation() {
+  const { totalPrice } = useCreateCart();
   const startDate = ref('');
   const endDate = ref('');
-  const pricePerDay = 20000;
+  const pricePerDay = totalPrice.value
 
   const daysDifference = computed(() => {
     if (startDate.value && endDate.value) {
@@ -16,11 +18,11 @@ export function useOrderPriceCalculation() {
     return 0;
   });
 
-  const totalPrice = computed(() => daysDifference.value * pricePerDay);
+  const computedTotalPrice = computed(() => daysDifference.value * pricePerDay);
 
   const displayText = computed(() => {
     if (startDate.value && endDate.value) {
-      return `From ${startDate.value} to ${endDate.value}, the total cost is ${totalPrice.value.toLocaleString()} Naira.`;
+      return `From ${startDate.value} to ${endDate.value}, the total cost is ${computedTotalPrice.value.toLocaleString()} Naira.`;
     }
     return '';
   });
@@ -29,7 +31,7 @@ export function useOrderPriceCalculation() {
     startDate,
     endDate,
     daysDifference,
-    totalPrice,
+    totalPrice: computedTotalPrice,
     displayText,
   };
 }

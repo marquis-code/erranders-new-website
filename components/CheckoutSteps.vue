@@ -186,105 +186,45 @@
                         class="bg-gray-50 px-4 pb-10 sm:px-6 lg:col-start-2 lg:row-start-1 lg:bg-transparent lg:px-0 lg:pb-16">
                         <div class="mx-auto max-w-lg lg:max-w-none">
                             <ul role="list" class="divide-y divide-gray-200 text-sm font-medium text-gray-900">
-                                <li class="flex items-start space-x-4 py-6">
-                                    <img src="https://tailwindui.com/img/ecommerce-images/checkout-page-04-product-01.jpg"
+                                <li v-for="(item, idx) in cartList"
+                                :key="idx"  class="flex items-start space-x-4 py-6">
+                                    <img :src="item.image"
                                         alt="Moss green canvas compact backpack with double top zipper, zipper front pouch, and matching carry handle and backpack straps."
                                         class="h-20 w-20 flex-none rounded-md object-cover object-center border" />
                                     <div class="flex-auto space-y-1">
-                                        <h3>Micro Backpack</h3>
-                                        <p class="text-gray-500">Moss</p>
-                                        <p class="text-gray-500">5L</p>
+                                        <h3>{{ item.name }}</h3>
+                                        <p class="text-gray-500">{{item.description.length > 40 ? `${item.description.slice(0, 40)}...` : item.description }}</p>
+                                        <p class="text-gray-500">Qty {{ item.count }}</p>
                                     </div>
-                                    <p class="flex-none text-base font-medium">$70.00</p>
+                                    <p class="flex-none text-base font-medium">     {{
+                                        formatToNaira(item.price * item.count) ||
+                                        "Nil"
+                                      }}</p>
                                 </li>
-
-                                <!-- More products... -->
                             </ul>
 
                             <dl
-                                class="hidden space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-gray-900 lg:block">
+                                class="space-y-6 border-t border-gray-200 pt-6 text-sm font-medium text-gray-900 lg:block">
                                 <div class="flex items-center justify-between">
                                     <dt class="text-gray-600">Subtotal</dt>
-                                    <dd>$320.00</dd>
+                                    <dd>{{ formatToNaira(cartTotalPrice) || 0 }}</dd>
                                 </div>
 
                                 <div class="flex items-center justify-between">
                                     <dt class="text-gray-600">Shipping</dt>
-                                    <dd>$15.00</dd>
+                                    <dd>NGN 20.00</dd>
                                 </div>
 
                                 <div class="flex items-center justify-between">
                                     <dt class="text-gray-600">Taxes</dt>
-                                    <dd>$26.80</dd>
+                                    <dd>NGN 0.00</dd>
                                 </div>
 
                                 <div class="flex items-center justify-between border-t border-gray-200 pt-6">
                                     <dt class="text-base">Total</dt>
-                                    <dd class="text-base">$361.80</dd>
+                                    <dd class="text-base">{{ formatToNaira(cartTotalPrice) || 0 }}</dd>
                                 </div>
                             </dl>
-
-                            <div
-                                class="fixed inset-x-0 bottom-0 flex flex-col-reverse text-sm font-medium text-gray-900 lg:hidden">
-                                <div class="relative z-10 border-t border-gray-200 bg-white px-4 sm:px-6">
-                                    <div class="mx-auto max-w-lg">
-                                        <button type="button" class="flex w-full items-center py-6 font-medium"
-                                            aria-expanded="false">
-                                            <span class="mr-auto text-base">Total</span>
-                                            <span class="mr-2 text-base">$361.80</span>
-                                            <svg class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor"
-                                                aria-hidden="true">
-                                                <path fill-rule="evenodd"
-                                                    d="M14.77 12.79a.75.75 0 01-1.06-.02L10 8.832 6.29 12.77a.75.75 0 11-1.08-1.04l4.25-4.5a.75.75 0 011.08 0l4.25 4.5a.75.75 0 01-.02 1.06z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <!--
-                        Mobile summary overlay, show/hide based on mobile summary state.
-          
-                        Entering: "transition-opacity ease-linear duration-300"
-                          From: "opacity-0"
-                          To: "opacity-100"
-                        Leaving: "transition-opacity ease-linear duration-300"
-                          From: "opacity-100"
-                          To: "opacity-0"
-                      -->
-                                    <div class="fixed inset-0 bg-black bg-opacity-25" aria-hidden="true"></div>
-
-                                    <!--
-                        Mobile summary, show/hide based on mobile summary state.
-          
-                        Entering: "transition ease-in-out duration-300 transform"
-                          From: "translate-y-full"
-                          To: "translate-y-0"
-                        Leaving: "transition ease-in-out duration-300 transform"
-                          From: "translate-y-0"
-                          To: "translate-y-full"
-                      -->
-                                    <div class="relative bg-white px-4 py-6 sm:px-6">
-                                        <dl class="mx-auto max-w-lg space-y-6">
-                                            <div class="flex items-center justify-between">
-                                                <dt class="text-gray-600">Subtotal</dt>
-                                                <dd>$320.00</dd>
-                                            </div>
-
-                                            <div class="flex items-center justify-between">
-                                                <dt class="text-gray-600">Shipping</dt>
-                                                <dd>$15.00</dd>
-                                            </div>
-
-                                            <div class="flex items-center justify-between">
-                                                <dt class="text-gray-600">Taxes</dt>
-                                                <dd>$26.80</dd>
-                                            </div>
-                                        </dl>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </section>
                 </div>
@@ -294,18 +234,18 @@
                         <legend class="sr-only">Payment type</legend>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
                             <div class="flex items-center">
-                                <input id="credit-card" name="payment-type" v-model="formData.paymentType" type="radio"
+                                <input id="credit-card" value="credit-card" name="payment-type" v-model="formData.paymentType" type="radio"
                                     class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                                 <label for="credit-card" class="ml-3 block text-sm font-medium text-gray-700">Credit
                                     card</label>
                             </div>
                             <div class="flex items-center">
-                                <input id="paypal" name="payment-type" v-model="formData.paymentType" type="radio"
+                                <input id="paypal" value="cash" name="payment-type" v-model="formData.paymentType" type="radio"
                                     class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                                 <label for="paypal" class="ml-3 block text-sm font-medium text-gray-700">Cash</label>
                             </div>
                             <div class="flex items-center">
-                                <input id="etransfer" name="payment-type" v-model="formData.paymentType" type="radio"
+                                <input id="etransfer" value="e-transfer" name="payment-type" v-model="formData.paymentType" type="radio"
                                     class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                                 <label for="etransfer"
                                     class="ml-3 block text-sm font-medium text-gray-700">eTransfer</label>
@@ -375,19 +315,19 @@
                             <label for="order" class="font-medium text-gray-900">Subscribe to this order ?</label>
                         </div>
                     </div>
-                    <div v-if="isSubscriptionOrder">
+                    <div v-if="isSubscriptionOrder" class="py-4">
                         <CoreDateInput v-model="dateFilter" range placeholder="Filter by date" :disabled-date="() => null"
                           clearable />
                     </div>
                     <p  class="text-sm font-semibold py-0 my-0">Total Fee: {{ totalPrice.toLocaleString() }} Naira</p>
-                    <!-- <p  class="text-sm font-semibold py-0 my-0">{{ displayText }}</p> -->
+                    <p  class="text-sm font-semibold py-0 my-0">{{ displayText }}</p>
                 </div>
                 <button type="submit" :disabled="isLastStep"
                     class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                     Next
                 </button>
                 <button v-if="isLastStep" type="button" @click="submitForm"
-                    class="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                    class="mt-4 w-full bg-green-600 text-white py-3 px-4 rounded-lg shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
                     Submit
                 </button>
             </form>
@@ -398,11 +338,15 @@
 <script setup lang="ts">
 import { useOrderPriceCalculation } from '@/composables/order/useSubscriptionOrderPriceCalculation';
 import { useLogin } from "@/composables/auth/login";
+import { useCurrency } from "@/composables/core/useCurrency";
+import { useCreateCart } from "@/composables/cart/create";
 import eyeOpen from "@/assets/icons/eye-open.svg";
 import eyeClose from "@/assets/icons/eye-close.svg";
 const { startDate, endDate, totalPrice, displayText } = useOrderPriceCalculation();
 const { handleLogin, loginPayload, loading, isFormEmpty, setLoginData } =
     useLogin();
+    const { cartList, totalPrice: cartTotalPrice, isCartOpen, closeCart, removeItem } = useCreateCart();
+    const { formatToNaira } = useCurrency();
 const { isLoggedIn } = useLogin();
 
 const showPassword = ref(false);
@@ -466,7 +410,7 @@ const formData = ref<FormData>({
     address: "",
     phone: "",
     orderNotes: "",
-    paymentType: "",
+    paymentType: "cash",
     cardNumber: "",
     nameOnCard: "",
     expirationDate: "",
@@ -509,8 +453,9 @@ const emit = defineEmits<{
 }>();
 
 const submitForm = () => {
-    emit("checkoutInfo", formData.value);
-    console.log("Form submitted:", formData.value);
+    const formattedData = { ...formData.value, totalPrice: totalPrice.value }
+    emit("checkoutInfo", formattedData);
+    console.log("Form submitted:", formattedData);
 };
 
 const isLastStep = computed(() => currentStep.value === steps.length);
