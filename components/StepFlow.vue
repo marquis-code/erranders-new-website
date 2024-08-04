@@ -1,6 +1,6 @@
 <template>
     <div class="items-center bg-blue-50 p-6 rounded-lg mx-auto flex flex-col lg:flex-row max-w-screen-xl my-10">
-      <div class="mb-4 pl-6 order-2 lg:order-1">
+      <div class="mb-4 lg:pl-6 order-2 lg:order-1">
         <h2 class="text-3xl text-blue-900 pl-3 font-medium">Simple steps to make it more easier</h2>
         <ol class="text-left text-blue-600 mt-4 space-y-6">
           <li class="mb-2 space-y-2 pl-3">

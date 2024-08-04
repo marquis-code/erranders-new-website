@@ -185,7 +185,7 @@
                 class="max-w-full min-h-screen bg-white pt-6 p-4"
               >
                 <h2 class="font-medium text-lg">🙏🏿 Follow these steps to complete your order 🎉</h2>
-                <CheckoutSteps />
+                <CheckoutSteps @checkoutInfo="handleCheckout" />
               </div>
             </div>
           </div>
@@ -222,10 +222,11 @@ const paymentOptions = [
 const processingPayment = ref(false);
 const selectedOption = ref<string>(paymentOptions[0].id);
 
-const setOrderData = async () => {
+const setOrderData = async (data: any) => {
   try {
     const coordinates = await fetchCurrentLocation();
     setOrderObj({
+      ...data,
       cartList: cartList.value,
       userId: user.value._id,
       location: { type: "Point", coordinates },
@@ -285,7 +286,9 @@ const submitPaymentOption = () => {
   }
 };
 
-
+const handleCheckout = (data: any) => {
+  setOrderData(data)
+}
 </script>
 
 

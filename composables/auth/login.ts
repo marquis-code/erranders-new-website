@@ -130,8 +130,14 @@ export const useLogin = () => {
     return !!(loginPayload.value.email && loginPayload.value.password);
   });
 
+  const setLoginData = (data: any) => {
+    loginPayload.value.email = data.email
+    loginPayload.value.password = data.password
+  }
+
   return {
     handleLogin,
+    setLoginData,
     localStorageData,
     loginPayload,
     loading,

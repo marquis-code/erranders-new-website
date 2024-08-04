@@ -110,7 +110,7 @@
                         <div class="flex h-6 items-center">
                             <input id="comments" aria-describedby="comments-description" @change="handleChange"
                                 name="comments" type="checkbox"
-                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
                         </div>
                         <div class="ml-3 text-sm leading-6">
                             <label for="comments" class="font-medium text-gray-900">Create an account?</label>
@@ -129,7 +129,7 @@
                         <div class="flex h-6 items-center">
                             <input id="shipping" aria-describedby="shipping-description"
                                 @change="handleChangeShippingAddress" name="comments" type="checkbox"
-                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600">
+                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
                         </div>
                         <div class="ml-3 text-sm leading-6">
                             <label for="shipping" class="font-medium text-gray-900">Ship to a different address?</label>
@@ -295,7 +295,7 @@
                         <div class="space-y-4 sm:flex sm:items-center sm:space-x-10 sm:space-y-0">
                             <div class="flex items-center">
                                 <input id="credit-card" name="payment-type" v-model="formData.paymentType" type="radio"
-                                 class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" />
+                                    class="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-500" />
                                 <label for="credit-card" class="ml-3 block text-sm font-medium text-gray-700">Credit
                                     card</label>
                             </div>
@@ -312,7 +312,7 @@
                             </div>
                         </div>
                     </fieldset>
-                    <div class="mt-6 grid grid-cols-4 gap-x-4 gap-y-6">
+                    <div v-if="formData.paymentType === 'credit-card'" class="mt-6 grid grid-cols-4 gap-x-4 gap-y-6">
                         <div class="col-span-4">
                             <label for="card-number" class="block text-sm font-medium text-gray-700">Card number</label>
                             <div class="mt-1">
@@ -365,6 +365,22 @@
                                 conditions*</label>
                         </div>
                     </div>
+                    <div class="relative flex items-start pt-3">
+                        <div class="flex h-6 items-center">
+                            <input id="order" aria-describedby="order-subscription"
+                                @change="handleOrderSubscription" name="comments" type="checkbox"
+                                class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" />
+                        </div>
+                        <div class="ml-3 text-sm leading-6">
+                            <label for="order" class="font-medium text-gray-900">Subscribe to this order ?</label>
+                        </div>
+                    </div>
+                    <div v-if="isSubscriptionOrder">
+                        <CoreDateInput v-model="dateFilter" range placeholder="Filter by date" :disabled-date="() => null"
+                          clearable />
+                    </div>
+                    <p  class="text-sm font-semibold py-0 my-0">Total Fee: {{ totalPrice.toLocaleString() }} Naira</p>
+                    <!-- <p  class="text-sm font-semibold py-0 my-0">{{ displayText }}</p> -->
                 </div>
                 <button type="submit" :disabled="isLastStep"
                     class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
@@ -380,7 +396,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { useOrderPriceCalculation } from '@/composables/order/useSubscriptionOrderPriceCalculation';
+import { useLogin } from "@/composables/auth/login";
+import eyeOpen from "@/assets/icons/eye-open.svg";
+import eyeClose from "@/assets/icons/eye-close.svg";
+const { startDate, endDate, totalPrice, displayText } = useOrderPriceCalculation();
+const { handleLogin, loginPayload, loading, isFormEmpty, setLoginData } =
+    useLogin();
+const { isLoggedIn } = useLogin();
+
+const showPassword = ref(false);
+
+const eye = computed(() => {
+    return !showPassword.value ? eyeClose : eyeOpen;
+});
+
+const togglePasswordVisibility = () => {
+    showPassword.value = !showPassword.value;
+};
+
+const dateFilter = ref<any>(null);
+
+// Watch for changes in dateFilter and showAll, then fetch data
+watch([dateFilter], () => {
+    startDate.value = dateFilter?.value?.[0],
+    endDate.value = dateFilter?.value?.[1],
+    formData.value.startDate = dateFilter?.value?.[0],
+    formData.value.endDate = dateFilter?.value?.[1]
+});
 
 interface FormData {
     email: string;
@@ -395,11 +438,16 @@ interface FormData {
     nameOnCard: string;
     expirationDate: string;
     cvc: string;
-    isNewUser: boolean
+    isNewUser: boolean;
+    isSubscription: boolean,
+    startDate: string,
+    endDate: string
 }
 
 const isNewUser = ref(false);
 const isChangeShippingAddress = ref(false);
+const isSubscription = ref(false)
+const isSubscriptionOrder = ref(false)
 
 const steps = [
     { number: 1, name: "Login" },
@@ -409,7 +457,7 @@ const steps = [
     { number: 5, name: "Payment" },
 ];
 
-const currentStep = ref<number>(1);
+const currentStep = ref<number>(isLoggedIn.value ? 2 : 1);
 const formData = ref<FormData>({
     email: "",
     password: "",
@@ -423,16 +471,45 @@ const formData = ref<FormData>({
     nameOnCard: "",
     expirationDate: "",
     cvc: "",
-    isNewUser: isNewUser.value
+    isNewUser: isNewUser.value,
+    isSubscription: isSubscription.value,
+    startDate: '',
+    endDate: ''
+});
+
+const isLoginFormComplete = computed(() => {
+    return formData.value.email && formData.value.password;
 });
 
 const nextStep = () => {
-    if (currentStep.value < steps.length) {
-        currentStep.value++;
+    if (currentStep.value === 1 && isLoginFormComplete.value) {
+        const payload = {
+            email: formData.value.email,
+            password: formData.value.password,
+        };
+        setLoginData(payload);
+        handleLogin()
+            .then(() => {
+                if (currentStep.value < steps.length) {
+                    currentStep.value++;
+                }
+            })
+            .catch(() => {
+                currentStep.value = 1;
+            });
     }
+
+    if (currentStep.value < steps.length) {
+                    currentStep.value++;
+                }
 };
 
+const emit = defineEmits<{
+    (event: "checkoutInfo", data: FormData): void;
+}>();
+
 const submitForm = () => {
+    emit("checkoutInfo", formData.value);
     console.log("Form submitted:", formData.value);
 };
 
@@ -441,6 +518,10 @@ const isLastStep = computed(() => currentStep.value === steps.length);
 const handleChange = (e) => {
     isNewUser.value = e.target.checked;
 };
+
+const handleOrderSubscription = (e) => {
+    isSubscriptionOrder.value = e.target.checked;
+}
 
 const handleChangeShippingAddress = (e) => {
     isChangeShippingAddress.value = e.target.checked;
