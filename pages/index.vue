@@ -3,6 +3,8 @@
     <HeroSection />
     <MealsCarousel id="products" />
     <CtaSection />
+    <OurService />
+    <StepFlow  />
     <VendorList id="marketplace" />
     <ServiceSection id="features" />
     <Support />

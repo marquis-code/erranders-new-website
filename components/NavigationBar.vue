@@ -1,4 +1,11 @@
 <template>
+<main>
+    <div class="bg-indigo-600 px-4 py-3 text-white">
+        <p class="text-center text-sm font-medium">
+            NOTE: Delivery: Next Day | Minimum Order Value: N25,000.00 | Minimum Qty: 5L /Paint Dismiss
+          <!-- <a href="#" class="inline-block underline">Check out this new course!</a> -->
+        </p>
+      </div>
     <section class="bg-white border-[0.6px] border-gray-100 h-20 shadow sticky top-0 z-50">
         <header class="absolute inset-x-0 top-0 z-20 max-w-7xl mx-auto">
             <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -27,6 +34,11 @@
                 </div>
                 <div class="hidden lg:flex lg:flex-1 lg:justify-end">
                     <div class="flex items-center  gap-x-4">
+                       <div @click="handleClick" class="relative cursor-pointer">
+                        <img src="@/assets/icons/empty-cart.svg" alt="" class="h-10 w-10" />
+                        <p class="h-5 w-5 absolute top-5 left-5 rounded-full bg-black text-white text-xs font-bold flex justify-center items-center text-center">{{ cartList.length || 0
+                        }}</p>
+                       </div>
                         <NuxtLink to="/login" href="#" class="text-sm font-semibold leading-6 text-gray-900">Log
                             in <span aria-hidden="true"></span></NuxtLink>
                         <NuxtLink to="/register"
@@ -157,8 +169,20 @@
             </div>
         </header>
     </section>
+</main>
 </template>
 
 <script setup lang="ts">
 const isMobileNav = ref(false)
+
+import { useCreateCart } from '@/composables/cart/create'
+const { cartList, openCart } = useCreateCart()
+const route = useRoute()
+const router = useRouter()
+
+const handleClick = () => {
+    router.push({ path: route.path, query: { section: 'cart-list' } })
+    openCart()
+}
+
 </script>

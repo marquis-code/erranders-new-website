@@ -1,7 +1,7 @@
 <template>
   <main>
     <section class="bg-white">
-      <section class="container px-6 py-10 mx-auto space-y-8 pb-32">
+      <section class="container px-6 mx-auto space-y-8 pb-16">
         <div class="text-center">
           <h1 class="text-2xl font-semibold text-gray-800 capitalize lg:text-3xl" data-aos="flip-left">
             Special Meals of the day!
@@ -43,8 +43,7 @@
             </div>
           </div>
         </div>
-
-        <div v-else-if="loading && !products.length" class="grid grid-cols-4 gap-6">
+        <div v-else-if="loading && !products.length" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
           <div v-for="item in 4" :key="item" class="h-60 bg-slate-400 rounded animate-pulse"></div>
         </div>
       </section>
@@ -101,7 +100,7 @@ const handleItemClick = (item: any) => {
 <style scoped>
 .carousel-container {
   width: 100%;
-  height: 600px;
+  height: 500px;
   /* Adjust as needed */
 }
 

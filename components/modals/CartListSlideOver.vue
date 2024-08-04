@@ -53,7 +53,6 @@
                       </button>
                     </div>
                   </div>
-
                   <div class="mt-8">
                     <div class="flow-root">
                       <ul
@@ -181,46 +180,12 @@
                   </div>
                 </div>
               </div>
-
               <div
                 v-if="route.query.section === 'payment-methods'"
                 class="max-w-full min-h-screen bg-white pt-6 p-4"
               >
-                <div class="p-4 bg-white rounded-lg min-w-4xl">
-                  <h2 class="text-sm font-medium mb-4">
-                    Select a Payment Option
-                  </h2>
-                  <div class="space-y-4">
-                    <div
-                      v-for="option in paymentOptions"
-                      :key="option.id"
-                      class="mb-2"
-                    >
-                      <label
-                        class="flex items-center space-x-3 bg-gray-50 pl-3 border rounded cursor-pointer"
-                      >
-                        <input
-                          type="radio"
-                          :value="option.id"
-                          v-model="selectedOption"
-                          class="form-radio h-4 w-4 text-blue-600"
-                        />
-                        <div class="p-2 flex-1 flex items-center gap-x-2">
-                          <img :src="option.icon" alt="" class="h-8 w-8" />
-                          {{ option.name }}
-                        </div>
-                      </label>
-                    </div>
-                  </div>
-                  <div class="mt-10 w-full">
-                    <button
-                      @click="submitPaymentOption"
-                      class="px-4 disabled:cursor-not-allowed disabled:opacity-25 w-full py-3.5 bg-blue-600 text-white rounded"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </div>
+                <h2 class="font-medium text-lg">🙏🏿 Follow these steps to complete your order 🎉</h2>
+                <CheckoutSteps />
               </div>
             </div>
           </div>
@@ -238,7 +203,7 @@ import { useCreateCart } from "@/composables/cart/create";
 import cashPayment from "@/assets/icons/cash.svg";
 import transferPayment from "@/assets/icons/transfer.svg";
 import { useLogin } from '@/composables/auth/login'
-const { user } = useLogin()
+const { user, isLoggedIn } = useLogin()
 import { useRouter, useRoute } from "vue-router";
 
 const { createOrder, setOrderObj, fetchCurrentLocation } = useCreateOrder();
@@ -304,13 +269,22 @@ const payNow = async () => {
   }
 };
 
+const showError = (message) => {
+  const app = useNuxtApp();
+    app.$toast.error(message, {
+      autoClose: 5000,
+      dangerouslyHTMLString: true,
+    });
+  };
+
 const submitPaymentOption = () => {
   if (selectedOption.value === "transfer") {
-    payNow();
+    isLoggedIn ? payNow() : showError("Sorry, you need to be logged in to place an order!");
   } else {
-    // Handle other payment options if needed
+    showError("This payment method is not currently supported. Please pay with transfer.");
   }
 };
+
 
 </script>
 

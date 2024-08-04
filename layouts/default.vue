@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ModalsCartNotification />
+    <!-- <ModalsCartNotification /> -->
     <NavigationBar />
     <NuxtPage />
     <!-- <ChatbotIcon /> -->

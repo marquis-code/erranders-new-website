@@ -8,7 +8,6 @@
                     class="flex  w-full transform text-left text-base transition md:my-8 md:max-w-2xl md:px-4 lg:max-w-4xl">
                     <div
                         class="relative flex w-full items-center overflow-hidden bg-white rounded-2xl px-4 pb-8 pt-14 shadow-2xl sm:px-6 sm:pt-8 md:p-6 lg:p-8">
-
                         <button @click="show = false" type="button"
                             class="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8">
                             <span class="sr-only">Close</span>
@@ -28,6 +27,10 @@
                             </div>
                             <div class="sm:col-span-8 lg:col-span-7">
                                 <h2 class="text-2xl font-bold text-gray-900 sm:pr-12">{{ product.name }}</h2>
+                                <p class="font-medium my-3 text-gray-400 flex items-center gap-x-3">
+                                    <span class="bg-black rounded-xl text-xs text-white px-3 py-2">{{product.createdBy.businessName}}</span> 
+                                    <NuxtLink :to="`/store/${product.createdBy._id}`"><img src="@/assets/icons/link.svg" alt=""/></NuxtLink>
+                                </p>
                                 <section aria-labelledby="information-heading" class="mt-3">
                                     <h3 id="information-heading" class="sr-only">Product information</h3>
 
