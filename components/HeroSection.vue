@@ -42,7 +42,8 @@
                             Place
                             order
                         </NuxtLink>
-                        <a href="#products" class="text-sm font-semibold leading-6 text-[#011633]">Get started</a>
+                        <!-- <a href="#products" class="text-sm font-semibold leading-6 text-[#011633]">Get started</a> -->
+                        <NuxtLink to="/register" class="text-sm font-semibold leading-6 text-[#011633]">Get started</NuxtLink>
                     </div>
                 </div>
                 <div data-aos="flip-left" class="mt-16 sm:mt-24 lg:mt-0 lg:flex-shrink-0 lg:flex-grow">
