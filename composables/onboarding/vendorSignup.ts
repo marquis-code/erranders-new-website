@@ -1,7 +1,7 @@
 import { authApiFactory } from "@/apiFactory/auth";
-const router = useRouter()
 export const useVendorSignup = () => {
   const loading = ref(false);
+  const router = useRouter()
   const registerPayload = ref({
     businessName: "",
     businessEmail: "",
@@ -11,6 +11,7 @@ export const useVendorSignup = () => {
     registrationNumber: '',
     businessAddress: '',
     residentialAddress: '',
+    referral: '',
     coordinates: []
   }) as any
 
@@ -25,6 +26,7 @@ export const useVendorSignup = () => {
         businessName: registerPayload.value.businessName,
         businessEmail: registerPayload.value.businessEmail,
         businessPhone: registerPayload.value.phone,
+        referral: registerPayload.value.referral,
         role: 'vendor',
         cacRegistration: registerPayload.value.registrationNumber,
         businessLocation: registerPayload.value.businessAddress,
@@ -37,12 +39,13 @@ export const useVendorSignup = () => {
 
       const response = await authApiFactory.register(payload);
       console.log(response, 'ap response here');
-      if(response?.data?.status === Number(201)){
+      if(response?.status === Number(201)){
         useNuxtApp().$toast.success("Account was successfully created.", {
           autoClose: 5000,
           dangerouslyHTMLString: true,
          });
-        router.push("/login");
+        // router.push("/login");
+        router.push("/l");
        }
       } catch (error: any) {
       console.log(error, 'error here')

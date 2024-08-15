@@ -90,7 +90,7 @@
 
         <!-- Activity list (smallest breakpoint only) -->
         <div class="shadow sm:hidden">
-          <ul role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
+          <ul  role="list" class="mt-2 divide-y divide-gray-200 overflow-hidden shadow sm:hidden">
             <li v-for="itm in transactions" :key="itm">
               <a href="#" class="block bg-white px-4 py-4 hover:bg-gray-50">
                 <span class="flex items-center space-x-4">
@@ -116,10 +116,7 @@
                 </span>
               </a>
             </li>
-
-            <!-- More transactions... -->
           </ul>
-
           <nav class="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3"
             aria-label="Pagination">
             <div class="flex flex-1 justify-between">
@@ -130,9 +127,8 @@
             </div>
           </nav>
         </div>
-
         <!-- Activity table (small breakpoint and up) -->
-        <div class="hidden sm:block ">
+        <div v-if="transactions.length" class="hidden sm:block ">
           <div class="mx-auto">
             <div class="mt-2 flex flex-col">
               <div class="min-w-full overflow-hidden overflow-x-auto align-middle shadow sm:rounded-lg">
@@ -204,6 +200,14 @@
             </div>
           </div>
         </div>
+        <div class="text-center border-t py-6 mt-6" v-else>
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+          </svg>
+          <h3 class="mt-2 text-sm font-semibold text-gray-900">No transactions available</h3>
+          <p class="mt-1 text-sm text-gray-500">Get started by creating a new transaction.</p>
+        </div>
+
       </section>
       <ChartsActivitiesChart class="border border-gray-100">
         <template v-slot:title>
@@ -241,25 +245,25 @@ definePageMeta({
 })
 
 const transactions = ref([
-  {
-    name: 'Payment for Budville Banana bread',
-    price: '1,000'
-  },
-  {
-    name: 'Payment for Supalive Zobo',
-    price: '1,000'
-  },
-  {
-    name: 'Payment for Chijoke spaghetti',
-    price: '1,000'
-  },
-  {
-    name: 'Payment for Tandalicious smoothie',
-    price: '1,000'
-  },
-  {
-    name: 'Payment for YEM YEM chocolates',
-    price: '1,000'
-  }
+  // {
+  //   name: 'Payment for Budville Banana bread',
+  //   price: '1,000'
+  // },
+  // {
+  //   name: 'Payment for Supalive Zobo',
+  //   price: '1,000'
+  // },
+  // {
+  //   name: 'Payment for Chijoke spaghetti',
+  //   price: '1,000'
+  // },
+  // {
+  //   name: 'Payment for Tandalicious smoothie',
+  //   price: '1,000'
+  // },
+  // {
+  //   name: 'Payment for YEM YEM chocolates',
+  //   price: '1,000'
+  // }
 ])
 </script>

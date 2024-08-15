@@ -60,6 +60,16 @@
                 </div>
             </div>
 
+
+            <div>
+                <label for="referral" class="block text-sm font-medium leading-6 text-[#0D0C22]">Referral</label>
+                <div class="mt-0.5">
+                    <input type="text" name="referral" id="referral" v-model="registerPayload.referral"
+                        class="block w-full rounded-md border border-gray-100 p-3 py-3.5 text-gray-900 shadow-sm   placeholder:text-gray-400 placeholder:font-light outline-none "
+                        placeholder="Enter name of referral">
+                </div>
+            </div>
+
             <div class="w-full pt-6">
                 <button :disabled="!isFirstFormEmpty" type="button" @click="activeStep = 'residency-info'"
                     class="text-white bg-[#0BCA63] disabled:cursor-not-allowed disabled:opacity-25 px-6 py-3.5 clear-left w-full rounded-full">Next</button>
