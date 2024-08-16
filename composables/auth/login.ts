@@ -86,8 +86,8 @@ export const useLogin = () => {
       if (result.value) {
         localStorage.clear();
         runtimeData.user.value = null;
-        router.push('/register')
-        // location.href = "/login";
+        // router.push('/register')
+        location.href = "/login";
       } else {
         Swal.fire("Cancelled", "Action was cancelled", "info");
       }
