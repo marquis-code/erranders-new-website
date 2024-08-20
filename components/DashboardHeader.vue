@@ -5,16 +5,18 @@
             <div class="min-w-0 flex-1">
               <!-- Profile -->
               <div class="flex items-center">
-                <img class="hidden h-16 w-16 rounded-full sm:block"
-                  src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                <img class="hidden h-14 w-14 rounded-full sm:block"
+                  src="@/assets/icons/avatar-girl.svg"
                   alt="">
                 <div>
                   <div class="flex items-center">
-                    <img class="h-16 w-16 rounded-full sm:hidden"
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.6&w=256&h=256&q=80"
+                    <img class="h-10 w-10 rounded-full sm:hidden"
+                      src="@/assets/icons/avatar-girl.svg"
                       alt="">
-                    <h1 class="ml-3 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9">Good
-                      morning, {{user.name || 'Nil'}}</h1>
+                  <div>
+                    <h1 class="ml-3 text-xl lg:text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:leading-9 pb-0 mb-0">{{ greeting }}, {{user.name || 'Nil'}}</h1>
+                    <!-- <p class="lg:text-base sm:text-xs max-w-xs pl-3 pt-0 mt-0 font-light">{{ quote }}</p> -->
+                  </div>
                   </div>
                   <dl class="mt-6 flex flex-col sm:ml-3 sm:mt-1 sm:flex-row sm:flex-wrap">
                     <dt class="sr-only">Company</dt>
@@ -49,4 +51,7 @@
 <script setup lang="ts">
 import { useLogin } from '@/composables/auth/login'
 const { user } = useLogin()
+import { useGreetingAndQuote } from '@/composables/core/useGreetingAndQuote';
+
+const { greeting, quote } = useGreetingAndQuote();
 </script>

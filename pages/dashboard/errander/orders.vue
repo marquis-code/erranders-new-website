@@ -161,10 +161,9 @@
   
   <script setup lang="ts">
   import moment from 'moment';
-  import { useFetchOrderList } from '@/composables/order/fetch';
+  import { useFetchErranderOrderList } from '@/composables/order/fetch-errander-order';
   
-  const { fetchOrders, ordersList, loading } = useFetchOrderList();
-  fetchOrders();
+  const { ordersList, loading } = useFetchErranderOrderList();
   
   const formatPrice = (price: any) => {
     if (price == null) return 'Nil';

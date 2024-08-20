@@ -90,7 +90,7 @@
                                   }}
                                 </p>
                               </div>
-                              <p class="mt-1 text-sm text-gray-500">Salmon</p>
+                              <p class="mt-1 text-sm text-gray-500">{{item.description.length > 40 ? `${item.description.slice(0, 40)}...` : item.description }}</p>
                             </div>
                             <div
                               class="flex flex-1 items-end justify-between text-sm"

@@ -35,11 +35,11 @@
           <div class="p-5">
             <div class="flex items-center">
               <div class="flex-shrink-0">
-                <img src="@/assets/icons/product-dashboard.svg" alt="products icon" />
+                <img src="@/assets/icons/deliveries.svg" class="h-10 w-10" alt="products icon" />
               </div>
               <div class="ml-5 w-0 flex-1">
                 <dl>
-                  <dt class="truncate text-sm font-medium text-gray-500">Total Products</dt>
+                  <dt class="truncate text-sm font-medium text-gray-500">Total Deliveries</dt>
                   <dd>
                     <div class="text-lg font-medium text-gray-900">{{products.length ?? 0}}</div>
                   </dd>
@@ -233,11 +233,10 @@
 </template>
 
 <script setup lang="ts">
-  import { useFetchOrderList } from '@/composables/order/fetch';
+  import { useFetchErranderOrderList } from '@/composables/order/fetch-errander-order';
   import { useFetchProductsList } from '@/composables/products/fetch';
   const { fetchProducts, products, loading: loadingProducts } = useFetchProductsList();
-  const { fetchOrders, ordersList, loading: loadingOrders } = useFetchOrderList();
-  fetchOrders();
+  const { ordersList, loading: loadingOrders  } = useFetchErranderOrderList();
   fetchProducts();
 definePageMeta({
   layout: 'customer-dashboard',

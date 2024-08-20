@@ -8,9 +8,9 @@
                         in</NuxtLink>
                 </p>
             </div>
-            <section class="pt-16">
+            <section class="pt-10">
                 <div>
-                    <h1 class="text-4xl font-semibold text-gray-800 py-0 my-0">Join us
+                    <h1 class="text-3xl lg:text-4xl font-semibold text-gray-800 py-0 my-0">Join us
                     </h1>
                     <p class="font-light leading-snug lg:leading-loose max-w-md py-0 my-0">To begin this journey, tell us what
                         type

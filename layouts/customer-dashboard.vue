@@ -5,7 +5,7 @@
         <div class="fixed inset-0 bg-gray-600 bg-opacity-75"></div>
 
         <div class="fixed inset-0 z-40 flex">
-          <div class="relative flex w-full  flex-1 flex-col bg-[#034091] pb-4 pt-5">
+          <div class="relative flex w-full flex-1 flex-col bg-[#034091] pb-4 pt-5">
             <div class="absolute right-0 top-0 -mr-12 pt-2">
               <button type="button" @click="openSidebar = false"
                 class="relative ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
@@ -23,7 +23,7 @@
             </div>
             <nav class="mt-5 h-full flex-shrink-0 divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
               <div class="space-y-2.5 px-2">
-                <NuxtLink v-for="(itm, idx) in navigationList" :key="idx" :to="itm.path"
+                <NuxtLink v-for="(itm, idx) in filteredNavigationList" :key="idx" :to="itm.path"
                   @click.prevent="openSidebar = false"
                   class="bg-[#034091] text-white group flex items-center rounded-md px-2 py-2 text-base font-medium"
                   aria-current="page">
@@ -33,14 +33,9 @@
               </div>
               <div class="mt-6 pt-6">
                 <div class="space-y-1 px-2">
-                  <NuxtLink v-for="(item, idx) in configNavigationList" :key="idx" :to="item.path"
+                  <NuxtLink v-for="(item, idx) in filteredConfigNavigationList" :key="idx" :to="item.path"
                     @click.prevent="openSidebar = false"
                     class="group flex items-center rounded-md px-2 py-2 text-base font-medium text-cyan-100 hover:bg-[#034091] hover:text-white">
-                    <!-- <svg class="mr-4 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                      stroke="currentColor" aria-hidden="true">
-                      <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
-                    </svg> -->
                     <img :src="item.icon" class="h-7 w-7 pr-2" alt="icon" />
                     {{ item.name }}
                   </NuxtLink>
@@ -74,30 +69,19 @@
           </div>
           <nav class="mt-5 flex flex-1 flex-col divide-y divide-cyan-800 overflow-y-auto" aria-label="Sidebar">
             <div class="space-y-2.5 px-2">
-              <!-- Current: "bg-[#034091] text-white", Default: "text-cyan-100 hover:bg-[#034091] hover:text-white" -->
-              <NuxtLink v-for="(itm, idx) in navigationList" :key="idx" :to="itm.path"
+              <NuxtLink v-for="(itm, idx) in filteredNavigationList" :key="idx" :to="itm.path"
                 @click.prevent="openSidebar = false"
                 class="text-white group flex items-center rounded-md px-2 py-2 text-sm font-medium leading-6"
                 aria-current="page">
-                <!-- <svg class="mr-4 h-6 w-6 flex-shrink-0 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" aria-hidden="true">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-                </svg> -->
                 <img :src="itm.icon" class="h-7 w-7 pr-2" alt="icon" />
                 {{ itm.name }}
               </NuxtLink>
             </div>
             <div class="mt-6 pt-6">
               <div class="space-y-1 px-2">
-                <NuxtLink v-for="(item, idx) in configNavigationList" :key="idx" :to="item.path"
+                <NuxtLink v-for="(item, idx) in filteredConfigNavigationList" :key="idx" :to="item.path"
                   @click.prevent="openSidebar = false"
                   class="group flex items-center rounded-md px-2 py-2 text-sm font-medium leading-6 text-cyan-100 hover:bg-[#034091] hover:text-white">
-                  <!-- <svg class="mr-4 h-6 w-6 text-cyan-200" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M4.5 12a7.5 7.5 0 0015 0m-15 0a7.5 7.5 0 1115 0m-15 0H3m16.5 0H21m-1.5 0H12m-8.457 3.077l1.41-.513m14.095-5.13l1.41-.513M5.106 17.785l1.15-.964m11.49-9.642l1.149-.964M7.501 19.795l.75-1.3m7.5-12.99l.75-1.3m-6.063 16.658l.26-1.477m2.605-14.772l.26-1.477m0 17.726l-.26-1.477M10.698 4.614l-.26-1.477M16.5 19.794l-.75-1.299M7.5 4.205L12 12m6.894 5.785l-1.149-.964M6.256 7.178l-1.15-.964m15.352 8.864l-1.41-.513M4.954 9.435l-1.41-.514M12.002 12l-3.75 6.495" />
-                  </svg> -->
                   <img :src="item.icon" class="h-7 w-7 pr-2" alt="icon" />
                   {{ item.name }}
                 </NuxtLink>
@@ -166,10 +150,10 @@
                     id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5 lg:hidden"></span>
                     <img class="h-8 w-8 rounded-full"
-                      src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                      src="@/assets/icons/avatar-girl.svg"
                       alt="">
                     <span class="ml-3 hidden text-sm font-medium text-gray-700 lg:block"><span class="sr-only">Open user
-                        menu for </span>Jojo Sparkles</span>
+                        menu for </span>{{user.name ?? 'Nil'}}</span>
                     <svg class="ml-1 hidden h-5 w-5 flex-shrink-0 text-gray-400 lg:block" viewBox="0 0 20 20"
                       fill="currentColor" aria-hidden="true">
                       <path fill-rule="evenodd"
@@ -215,50 +199,102 @@ import settings from '@/assets/icons/dash-settings.svg'
 import help from '@/assets/icons/dash-help.svg'
 
 import { useLogin } from '@/composables/auth/login'
-const { logOut } = useLogin()
+const { logOut, userRole, user } = useLogin()
 const openSidebar = ref(false)
 const showDropdown = ref(false)
 
 const navigationList = ref([
   {
     icon: dashboard,
-    path: '/dashboard/vendor',
     name: 'Dashboard',
+    paths: {
+      admin: '/dashboard/admin',
+      vendor: '/dashboard/vendor',
+      errander: '/dashboard/errander',
+      user: '/dashboard/user'
+    },
+    roles: ['admin', 'vendor', 'errander', 'user'], // Roles that can see this item
   },
   {
     icon: orders,
-    path: '/dashboard/vendor/orders',
-    name: 'Orders'
+    name: 'Orders',
+    paths: {
+      admin: '/dashboard/admin/orders',
+      vendor: '/dashboard/vendor/orders',
+      errander: '/dashboard/errander/orders',
+      user: '/dashboard/user/orders'
+    },
+    roles: ['admin', 'vendor', 'errander', 'user'], // Roles that can see this item
   },
   {
     icon: wallet,
-    path: '/dashboard/vendor/wallet',
-    name: 'Wallet'
+    name: 'Wallet',
+    paths: {
+      admin: '/dashboard/admin/wallet',
+      vendor: '/dashboard/vendor/wallet',
+      errander: '/dashboard/errander/wallet',
+      user: '/dashboard/user/wallet'
+    },
+    roles: ['admin', 'vendor', 'errander', 'user'], // Roles that can see this item
   },
   {
     icon: products,
-    path: '/dashboard/vendor/products',
-    name: 'Products'
+    name: 'Products',
+    paths: {
+      admin: '/dashboard/admin/products',
+      vendor: '/dashboard/vendor/products',
+      user: '/dashboard/user/products'
+    },
+    roles: ['admin', 'vendor', 'user'], // Roles that can see this item
   },
   {
     icon: analytics,
-    path: '/dashboard/vendor/analytics',
-    name: 'Analytics'
+    name: 'Analytics',
+    paths: {
+      admin: '/dashboard/admin/analytics',
+      vendor: '/dashboard/vendor/analytics',
+      errander: '/dashboard/errander/analytics',
+      user: '/dashboard/user/analytics'
+    },
+    roles: ['admin', 'vendor', 'errander', 'user'], // Roles that can see this item
   }
 ])
 
 const configNavigationList = ref([
   {
     icon: settings,
-    path: '/dashboard/settings',
     name: 'Settings',
+    paths: {
+      admin: '/dashboard/admin/settings',
+      vendor: '/dashboard/vendor/settings',
+      errander: '/dashboard/errander/settings',
+      user: '/dashboard/user/settings'
+    },
+    roles: ['admin', 'vendor', 'errander', 'user'], // Roles that can see this item
   },
   {
     icon: help,
-    path: '/dashboard/vendor/help',
-    name: 'Help'
+    name: 'Help',
+    paths: {
+      admin: '/dashboard/admin/help',
+      vendor: '/dashboard/vendor/help',
+      user: '/dashboard/user/help'
+    },
+    roles: ['admin', 'vendor', 'user'], // Roles that can see this item
   },
 ])
+
+const filteredNavigationList = computed(() => {
+  return navigationList.value
+    .filter(item => item.roles.includes(userRole.value))
+    .map(item => ({ ...item, path: item.paths[userRole.value] }));
+})
+
+const filteredConfigNavigationList = computed(() => {
+  return configNavigationList.value
+    .filter(item => item.roles.includes(userRole.value))
+    .map(item => ({ ...item, path: item.paths[userRole.value] }));
+})
 </script>
 
 <style scoped>

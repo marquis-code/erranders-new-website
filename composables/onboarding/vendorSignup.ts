@@ -44,8 +44,7 @@ export const useVendorSignup = () => {
           autoClose: 5000,
           dangerouslyHTMLString: true,
          });
-        // router.push("/login");
-        router.push("/l");
+        router.push("/login");
        }
       } catch (error: any) {
       console.log(error, 'error here')

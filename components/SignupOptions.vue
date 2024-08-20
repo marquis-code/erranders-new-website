@@ -8,7 +8,7 @@
           :aria-description="option.description"
           @click="selectOption(option.value)"
           :class="[
-            'relative block cursor-pointer rounded-lg border bg-white px-6 py-4 shadow-sm focus:outline-none sm:flex sm:justify-between',
+            'relative block cursor-pointer rounded-lg border bg-white px-6 py-4 shadow-sm focus:outline-none flex justify-between',
             selectedOption === option.value ? 'border-green-600 border' : 'border-gray-300'
           ]"
         >

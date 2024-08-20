@@ -61,6 +61,10 @@
                                     class="block w-full rounded-md border outline-none pl-4 py-3 text-gray-900 ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
+
+                      <div class="flex justify-end items-end">
+                        <button @click="currentStep = 2" class="text-green-800 underline" >Proceed to billing section</button>
+                      </div>
                     </div>
                 </div>
                 <div v-if="currentStep === 2" class="mb-4">
@@ -93,6 +97,16 @@
                             </div>
                         </div>
 
+
+                        <div class="sm:col-span-2">
+                            <label for="apartment" class="block text-sm font-medium text-gray-700">Location of residence</label>
+                            <div class="mt-1">
+                                <CoreAddressInput @coordinates="handleCoordinates" @address="handleUserAddress" />
+                                <!-- <input type="text" name="apartment" v-model="formData.address" id="apartment"
+                                    class="block w-full py-3 border pl-2.5 rounded-md border-gray-300 outline-none sm:text-sm" /> -->
+                            </div>
+                        </div>
+
                         <div class="sm:col-span-2">
                             <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
                             <div class="mt-1">
@@ -103,8 +117,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 pt-6">Email</label>
-                        <input type="email" v-model="formData.email" required
-                            class="block w-full py-3 border pl-2.5 rounded-md border-gray-300 outline-none sm:text-sm" />
+                        <CoreEmailInput class="block w-full py-3 border pl-2.5 rounded-md border-gray-300 outline-none sm:text-sm" @completed="handleEmail" />
                     </div>
                     <div class="relative flex items-start pt-3">
                         <div class="flex h-6 items-center">
@@ -335,7 +348,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { useOrderPriceCalculation } from '@/composables/order/useSubscriptionOrderPriceCalculation';
 import { useLogin } from "@/composables/auth/login";
 import { useCurrency } from "@/composables/core/useCurrency";
@@ -473,4 +486,191 @@ const handleChangeShippingAddress = (e) => {
 };
 </script>
 
-<style></style>
+<style></style> -->
+
+<script setup lang="ts">
+import { useOrderPriceCalculation } from '@/composables/order/useSubscriptionOrderPriceCalculation';
+import { useCustomerSignup } from '@/composables/onboarding/customerSignup'
+import { useLogin } from "@/composables/auth/login";
+import { useCurrency } from "@/composables/core/useCurrency";
+import { useCreateCart } from "@/composables/cart/create";
+import eyeOpen from "@/assets/icons/eye-open.svg";
+import eyeClose from "@/assets/icons/eye-close.svg";
+import { useRouter, useRoute } from 'vue-router';
+
+const { registerPayload, handleRegister, loading: processingSignup, setSignupPayload } = useCustomerSignup()
+const { startDate, endDate, totalPrice, displayText } = useOrderPriceCalculation();
+const { handleLogin, loginPayload, loading, isFormEmpty, setLoginData } = useLogin();
+const { cartList, totalPrice: cartTotalPrice, isCartOpen, closeCart, removeItem } = useCreateCart();
+const { formatToNaira } = useCurrency();
+const { isLoggedIn } = useLogin();
+const router = useRouter();
+const route = useRoute();
+
+const showPassword = ref(false);
+
+const eye = computed(() => {
+    return !showPassword.value ? eyeClose : eyeOpen;
+});
+
+const togglePasswordVisibility = () => {
+    showPassword.value = !showPassword.value;
+};
+
+const dateFilter = ref<any>(null);
+
+watch([dateFilter], () => {
+    startDate.value = dateFilter?.value?.[0],
+    endDate.value = dateFilter?.value?.[1],
+    formData.value.startDate = dateFilter?.value?.[0],
+    formData.value.endDate = dateFilter?.value?.[1]
+});
+
+interface FormData {
+    residentialAddress: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    address: string;
+    phone: string;
+    orderNotes: string;
+    paymentType: string;
+    cardNumber: string;
+    nameOnCard: string;
+    expirationDate: string;
+    cvc: string;
+    isNewUser: boolean;
+    isSubscription: boolean,
+    startDate: string,
+    endDate: string,
+    coordinates: any
+}
+
+const isNewUser = ref(false);
+const isChangeShippingAddress = ref(false);
+const isSubscription = ref(false)
+const isSubscriptionOrder = ref(false)
+
+const steps = [
+    { number: 1, name: "Login" },
+    { number: 2, name: "Billing" },
+    { number: 3, name: "Shipping" },
+    { number: 4, name: "Order" },
+    { number: 5, name: "Payment" },
+];
+
+// Function to get the current step from the query parameter
+const getCurrentStepFromQuery = () => {
+    const stepFromQuery = parseInt(route.query.step as string, 10);
+    return isNaN(stepFromQuery) ? (isLoggedIn.value ? 2 : 1) : stepFromQuery;
+};
+
+const currentStep = ref<number>(getCurrentStepFromQuery());
+const formData = ref<FormData>({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    address: "",
+    phone: "",
+    orderNotes: "",
+    paymentType: "cash",
+    cardNumber: "",
+    nameOnCard: "",
+    expirationDate: "",
+    cvc: "",
+    isNewUser: isNewUser.value,
+    isSubscription: isSubscription.value,
+    startDate: '',
+    endDate: '',
+    residentialAddress: '',
+    coordinates: null
+});
+
+// Watch for changes in currentStep and update the query parameter
+watch(currentStep, (newStep) => {
+    router.push({ query: { ...route.query, step: newStep.toString() } });
+});
+
+const isLoginFormComplete = computed(() => {
+    return formData.value.email && formData.value.password;
+});
+
+const nextStep = () => {
+    if (currentStep.value === 1 && isLoginFormComplete.value) {
+        const payload = {
+            email: formData.value.email,
+            password: formData.value.password,
+        };
+        setLoginData(payload);
+        handleLogin()
+            .then(() => {
+                if (currentStep.value < steps.length) {
+                    currentStep.value++;
+                }
+            })
+            .catch(() => {
+                currentStep.value = 1;
+            });
+    }
+
+    if (currentStep.value < steps.length) {
+        currentStep.value++;
+    }
+
+    if(currentStep.value === 2 && isNewUser.value){
+        const payload = {
+            name: `${formData.value.firstName} ${formData.value.lastName}`,
+            email: formData.value.email,
+            password: formData.value.password,
+            phone: formData.value.phone,
+            address: formData.value.address,
+            role: 'user',
+            location: {
+                type: 'Point',
+                coordinates: formData.value.coordinates
+            },
+            residentialAddress: formData.value.residentialAddress 
+        }
+        setSignupPayload(payload)
+        handleRegister()
+    }
+};
+
+const emit = defineEmits<{
+    (event: "checkoutInfo", data: FormData): void;
+}>();
+
+const submitForm = () => {
+    const formattedData = { ...formData.value, totalPrice: totalPrice.value }
+    emit("checkoutInfo", formattedData);
+    console.log("Form submitted:", formattedData);
+};
+
+const isLastStep = computed(() => currentStep.value === steps.length);
+
+const handleChange = (e) => {
+    isNewUser.value = e.target.checked;
+};
+
+const handleOrderSubscription = (e) => {
+    isSubscriptionOrder.value = e.target.checked;
+}
+
+const handleChangeShippingAddress = (e) => {
+    isChangeShippingAddress.value = e.target.checked;
+};
+
+const handleEmail = (email: string) => {
+    formData.value.email = email
+}
+
+const handleCoordinates = (coordinates: any) => {
+    formData.value.coordinates = [coordinates.lat, coordinates.lng]
+}
+
+const handleUserAddress = (address: any) => {
+    formData.value.residentialAddress = address
+}
+</script>
